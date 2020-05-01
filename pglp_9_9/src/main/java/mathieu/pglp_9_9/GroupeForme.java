@@ -9,6 +9,10 @@ import mathieu.pglp_9_9.forme.Forme;
  */
 public class GroupeForme extends Forme implements Serializable {
     /**
+     * serial number.
+     */
+    private static final long serialVersionUID = 311378715193261118L;
+    /**
      * liste des formes.
      */
     private ArrayList<Forme> formes;

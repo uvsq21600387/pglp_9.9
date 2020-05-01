@@ -1,13 +1,18 @@
 package mathieu.pglp_9_9;
 
 /**
- * Hello world!
- *
+ * classe d'execution.
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+public enum App {
+    /**
+     * debut du programme.
+     */
+    Application;
+    /**
+     * methode d'execution.
+     * @param args arguments pour executer
+     */
+    public static void main(final String[] args) {
+        System.out.println("Hello World!");
     }
 }

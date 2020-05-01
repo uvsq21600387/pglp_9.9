@@ -9,6 +9,20 @@ public abstract class Forme {
      */
     protected String variableName;
     /**
+     * obtenir le nom de variable de la forme.
+     * @return le nom de variable de la forme
+     */
+    public String getVariableName() {
+        return variableName + "";
+    }
+    /**
+     * modifier le nom de variable de la forme.
+     * @param newVariableName nouvelle valeur
+     */
+    public void setVariableName(final String newVariableName) {
+        variableName = newVariableName + "";
+    }
+    /**
      * constructeur pour définir la variable.
      * @param nom_de_variable définir le nom de la variable de la forme
      */
