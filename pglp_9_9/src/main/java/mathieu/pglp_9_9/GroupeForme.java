@@ -24,7 +24,7 @@ public class GroupeForme extends Forme implements Serializable {
      * constructeur du groupe.
      * @param nom_de_variable nom de la variable pour le groupe
      */
-    protected GroupeForme(String nom_de_variable) {
+    public GroupeForme(String nom_de_variable) {
         super(nom_de_variable);
         formes = new ArrayList<Forme>();
     }

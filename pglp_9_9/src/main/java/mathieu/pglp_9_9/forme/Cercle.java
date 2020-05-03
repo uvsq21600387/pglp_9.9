@@ -26,7 +26,7 @@ public class Cercle extends Forme {
      * @param p position du cercle
      * @param rayon_cercle rayon du cercle
      */
-    protected Cercle(final String nom_de_variable, final Position p,
+    public Cercle(final String nom_de_variable, final Position p,
             final int rayon_cercle) {
         super(nom_de_variable);
         centre = p.clone();
