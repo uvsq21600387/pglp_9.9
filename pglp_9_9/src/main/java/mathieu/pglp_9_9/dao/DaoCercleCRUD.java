@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import mathieu.pglp_9_9.forme.Cercle;
 
+/**
+ * dao pour opération CRUD sur le Cercle.
+ */
 public class DaoCercleCRUD extends AbstractDao<Cercle>
 implements Serializable {
     /**
@@ -21,11 +24,16 @@ implements Serializable {
      */
     ArrayList<Cercle> list;
     /**
-     * constructeur du Dao
+     * constructeur du Dao.
      */
     public DaoCercleCRUD() {
         list = new ArrayList<Cercle>();
     }
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
     public Cercle create(final Cercle object) {
         if(this.find(object.getVariableName()) != null) {
@@ -35,6 +43,11 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
     public Cercle find(final String id) {
         for (Cercle f : list) {
@@ -44,6 +57,11 @@ implements Serializable {
         }
         return null;
     }
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
     public Cercle update(final Cercle object) {
         Cercle t = this.find(object.getVariableName());
@@ -55,6 +73,10 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
     public void delete(final Cercle object) {
         list.remove(object);

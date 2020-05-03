@@ -1,5 +1,9 @@
 package mathieu.pglp_9_9.dao;
 
+/**
+ * classe abstraite pour tous les dao.
+ * @param <T> type de forme
+ */
 public abstract class AbstractDao<T> {
     /**
      * ajoute un élément au DAO.

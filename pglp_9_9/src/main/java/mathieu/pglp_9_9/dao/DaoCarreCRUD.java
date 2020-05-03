@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import mathieu.pglp_9_9.forme.Carre;
 
+/**
+ * dao pour opération CRUD sur le Carré.
+ */
 public class DaoCarreCRUD extends AbstractDao<Carre>
 implements Serializable {
     /**
@@ -21,11 +24,16 @@ implements Serializable {
      */
     ArrayList<Carre> list;
     /**
-     * constructeur du Dao
+     * constructeur du Dao.
      */
     public DaoCarreCRUD() {
         list = new ArrayList<Carre>();
     }
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
     public Carre create(final Carre object) {
         if(this.find(object.getVariableName()) != null) {
@@ -35,6 +43,11 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
     public Carre find(final String id) {
         for (Carre f : list) {
@@ -44,6 +57,11 @@ implements Serializable {
         }
         return null;
     }
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
     public Carre update(final Carre object) {
         Carre t = this.find(object.getVariableName());
@@ -55,6 +73,10 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
     public void delete(final Carre object) {
         list.remove(object);

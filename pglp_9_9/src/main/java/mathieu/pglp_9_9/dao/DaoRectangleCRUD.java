@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import mathieu.pglp_9_9.forme.Rectangle;
 
+/**
+ * dao pour opération CRUD sur le Rectangle.
+ */
 public class DaoRectangleCRUD extends AbstractDao<Rectangle>
 implements Serializable {
     /**
@@ -21,11 +24,16 @@ implements Serializable {
      */
     ArrayList<Rectangle> list;
     /**
-     * constructeur du Dao
+     * constructeur du Dao.
      */
     public DaoRectangleCRUD() {
         list = new ArrayList<Rectangle>();
     }
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
     public Rectangle create(final Rectangle object) {
         if(this.find(object.getVariableName()) != null) {
@@ -35,6 +43,11 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
     public Rectangle find(final String id) {
         for (Rectangle f : list) {
@@ -44,6 +57,11 @@ implements Serializable {
         }
         return null;
     }
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
     public Rectangle update(final Rectangle object) {
         Rectangle t = this.find(object.getVariableName());
@@ -55,6 +73,10 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
     public void delete(final Rectangle object) {
         list.remove(object);

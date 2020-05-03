@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import mathieu.pglp_9_9.forme.Position;
 import mathieu.pglp_9_9.forme.Rectangle;
 
+/**
+ * dao pour opération JDBC sur le Rectangle.
+ */
 public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
     /**
      * connection à la bdd.
@@ -17,11 +20,15 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
      * constructeur de la classe.
      * @param c connection pour la bdd
      */
-    public DaoRectangleJDBC(Connection c) {
+    public DaoRectangleJDBC(final Connection c) {
         connect = c;
     }
-    
-    private void deleteCompositionRectangle(String id) {
+    /**
+     * supprime toutes les associations
+     * de la forme contenu dans les groupes.
+     * @param id identifiant de la forme 
+     */
+    private void deleteCompositionRectangle(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
@@ -31,9 +38,13 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
         } catch (SQLException e) {
         }
     }
-    
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
-    public Rectangle create(Rectangle object) {
+    public Rectangle create(final Rectangle object) {
         final int un = 1, deux = 2, trois = 3, quatre = 4,cinq = 5;
         try {
             PreparedStatement prepare = connect.prepareStatement(
@@ -52,9 +63,13 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
         }
         return object;
     }
-
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
-    public Rectangle find(String id) {
+    public Rectangle find(final String id) {
         final int un = 1;
         Rectangle find = null;
         try {
@@ -78,9 +93,13 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
         }
         return find;
     }
-
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
-    public Rectangle update(Rectangle object) {
+    public Rectangle update(final Rectangle object) {
         final int un = 1, deux = 2, trois = 3, quatre = 4, cinq = 5;
         final Rectangle before = this.find(object.getVariableName());
         if (before != null) {
@@ -103,9 +122,12 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
         }
         return object;
     }
-
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
-    public void delete(Rectangle object) {
+    public void delete(final Rectangle object) {
         final int un = 1;
         try {
             this.deleteCompositionRectangle(object.getVariableName());

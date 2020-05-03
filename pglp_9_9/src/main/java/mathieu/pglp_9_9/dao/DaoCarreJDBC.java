@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import mathieu.pglp_9_9.forme.Carre;
 import mathieu.pglp_9_9.forme.Position;
 
+/**
+ * dao pour opération JDBC sur le Carré.
+ */
 public class DaoCarreJDBC extends AbstractDao<Carre> {
     /**
      * connection à la bdd.
@@ -17,11 +20,15 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
      * constructeur de la classe.
      * @param c connection pour la bdd
      */
-    public DaoCarreJDBC(Connection c) {
+    public DaoCarreJDBC(final Connection c) {
         connect = c;
     }
-    
-    private void deleteCompositionCarre(String id) {
+    /**
+     * supprime toutes les associations
+     * de la forme contenu dans les groupes.
+     * @param id identifiant de la forme 
+     */
+    private void deleteCompositionCarre(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
@@ -31,9 +38,13 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
         } catch (SQLException e) {
         }
     }
-    
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
-    public Carre create(Carre object) {
+    public Carre create(final Carre object) {
         final int un = 1, deux = 2, trois = 3, quatre = 4;
         try {
             PreparedStatement prepare = connect.prepareStatement(
@@ -51,9 +62,13 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
         }
         return object;
     }
-
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
-    public Carre find(String id) {
+    public Carre find(final String id) {
         final int un = 1;
         Carre find = null;
         try {
@@ -71,9 +86,13 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
         }
         return find;
     }
-
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
-    public Carre update(Carre object) {
+    public Carre update(final Carre object) {
         final int un = 1, deux = 2, trois = 3, quatre = 4;
         final Carre before = this.find(object.getVariableName());
         if (before != null) {
@@ -95,9 +114,12 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
         }
         return object;
     }
-
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
-    public void delete(Carre object) {
+    public void delete(final Carre object) {
         final int un = 1;
         try {
             this.deleteCompositionCarre(object.getVariableName());
@@ -109,6 +131,4 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
             e.printStackTrace();
         }
     }
-
-    
 }

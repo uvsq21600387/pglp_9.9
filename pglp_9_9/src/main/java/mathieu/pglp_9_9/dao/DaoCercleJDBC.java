@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import mathieu.pglp_9_9.forme.Cercle;
 import mathieu.pglp_9_9.forme.Position;
 
+/**
+ * dao pour opération JDBC sur le Cercle.
+ */
 public class DaoCercleJDBC extends AbstractDao<Cercle> {
     /**
      * connection à la bdd.
@@ -17,11 +20,15 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
      * constructeur de la classe.
      * @param c connection pour la bdd
      */
-    public DaoCercleJDBC(Connection c) {
+    public DaoCercleJDBC(final Connection c) {
         connect = c;
     }
-    
-    private void deleteCompositionCercle(String id) {
+    /**
+     * supprime toutes les associations
+     * de la forme contenu dans les groupes.
+     * @param id identifiant de la forme 
+     */
+    private void deleteCompositionCercle(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
@@ -31,9 +38,13 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
         } catch (SQLException e) {
         }
     }
-
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
-    public Cercle create(Cercle object) {
+    public Cercle create(final Cercle object) {
         final int un = 1, deux = 2, trois = 3, quatre = 4;
         try {
             PreparedStatement prepare = connect.prepareStatement(
@@ -51,9 +62,13 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
         }
         return object;
     }
-
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
-    public Cercle find(String id) {
+    public Cercle find(final String id) {
         final int un = 1;
         Cercle find = null;
         try {
@@ -71,9 +86,13 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
         }
         return find;
     }
-
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
-    public Cercle update(Cercle object) {
+    public Cercle update(final Cercle object) {
         final int un = 1, deux = 2, trois = 3, quatre = 4;
         final Cercle before = this.find(object.getVariableName());
         if (before != null) {
@@ -95,9 +114,12 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
         }
         return object;
     }
-
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
-    public void delete(Cercle object) {
+    public void delete(final Cercle object) {
         final int un = 1;
         try {
             this.deleteCompositionCercle(object.getVariableName());

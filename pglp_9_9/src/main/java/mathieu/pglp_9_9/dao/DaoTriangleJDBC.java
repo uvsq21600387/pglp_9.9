@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import mathieu.pglp_9_9.forme.Position;
 import mathieu.pglp_9_9.forme.Triangle;
 
+/**
+ * dao pour opération JDBC sur le Triangle.
+ */
 public class DaoTriangleJDBC extends AbstractDao<Triangle> {
     /**
      * connection à la bdd.
@@ -17,10 +20,14 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
      * constructeur de la classe.
      * @param c connection pour la bdd
      */
-    public DaoTriangleJDBC(Connection c) {
+    public DaoTriangleJDBC(final Connection c) {
         connect = c;
     }
-    
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     private void deleteCompositionTriangle(String id) {
         final int un = 1;
         try {
@@ -31,9 +38,13 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
         } catch (SQLException e) {
         }
     }
-    
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
-    public Triangle create(Triangle object) {
+    public Triangle create(final Triangle object) {
         final int un = 1, deux = 2, trois = 3, quatre = 4,cinq = 5, six = 6, sept = 7;
         try {
             PreparedStatement prepare = connect.prepareStatement(
@@ -57,9 +68,13 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
         }
         return object;
     }
-
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
-    public Triangle find(String id) {
+    public Triangle find(final String id) {
         final int un = 1;
         Triangle find = null;
         try {
@@ -87,9 +102,13 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
         }
         return find;
     }
-
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
-    public Triangle update(Triangle object) {
+    public Triangle update(final Triangle object) {
         final int un = 1, deux = 2, trois = 3, quatre = 4,cinq = 5, six = 6, sept = 7;
         final Triangle before = this.find(object.getVariableName());
         if (before != null) {
@@ -115,9 +134,12 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
         }
         return object;
     }
-
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
-    public void delete(Triangle object) {
+    public void delete(final Triangle object) {
         final int un = 1;
         try {
             this.deleteCompositionTriangle(object.getVariableName());

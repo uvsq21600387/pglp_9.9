@@ -6,6 +6,9 @@ import mathieu.pglp_9_9.forme.Cercle;
 import mathieu.pglp_9_9.forme.Rectangle;
 import mathieu.pglp_9_9.forme.Triangle;
 
+/**
+ * pattern factory pour les Dao à opérations CRUD.
+ */
 public class DaoFactoryCRUD extends AbstractDaoFactory {
 
     @Override

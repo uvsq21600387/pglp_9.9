@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import mathieu.pglp_9_9.GroupeForme;
 
+/**
+ * dao pour opération CRUD sur les Groupes de formes.
+ */
 public class DaoGroupeFormeCRUD extends AbstractDao<GroupeForme>
 implements Serializable {
     /**
@@ -21,11 +24,16 @@ implements Serializable {
      */
     ArrayList<GroupeForme> list;
     /**
-     * constructeur du Dao
+     * constructeur du Dao.
      */
     public DaoGroupeFormeCRUD() {
         list = new ArrayList<GroupeForme>();
     }
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
     public GroupeForme create(final GroupeForme object) {
         if(this.find(object.getVariableName()) != null) {
@@ -35,6 +43,11 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
     public GroupeForme find(final String id) {
         for (GroupeForme f : list) {
@@ -44,6 +57,11 @@ implements Serializable {
         }
         return null;
     }
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
     public GroupeForme update(final GroupeForme object) {
         GroupeForme t = this.find(object.getVariableName());
@@ -55,6 +73,10 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
     public void delete(final GroupeForme object) {
         list.remove(object);

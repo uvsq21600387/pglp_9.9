@@ -27,13 +27,31 @@ public abstract class AbstractDaoFactory {
          */
         JDBC;
     }
-    
+    /**
+     * retourne le dao.
+     * @return le dao
+     */
     public abstract AbstractDao<Cercle> getDaoCercle();
+    /**
+     * retourne le dao.
+     * @return le dao
+     */
     public abstract AbstractDao<Carre> getDaoCarre();
+    /**
+     * retourne le dao.
+     * @return le dao
+     */
     public abstract AbstractDao<Rectangle> getDaoRectangle();
+    /**
+     * retourne le dao.
+     * @return le dao
+     */
     public abstract AbstractDao<Triangle> getDaoTriangle();
+    /**
+     * retourne le dao.
+     * @return le dao
+     */
     public abstract AbstractDao<GroupeForme> getDaoGroupeForme();
-    
     /**
      * récupérer une fabrique.
      * @param t type de fabrique souhaité

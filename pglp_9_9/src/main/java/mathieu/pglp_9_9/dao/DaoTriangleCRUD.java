@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import mathieu.pglp_9_9.forme.Triangle;
 
+/**
+ * dao pour opération CRUD sur le Triangle.
+ */
 public class DaoTriangleCRUD extends AbstractDao<Triangle>
 implements Serializable {
     /**
@@ -21,11 +24,16 @@ implements Serializable {
      */
     ArrayList<Triangle> list;
     /**
-     * constructeur du Dao
+     * constructeur du Dao.
      */
     public DaoTriangleCRUD() {
         list = new ArrayList<Triangle>();
     }
+    /**
+     * ajoute un élément au DAO.
+     * @param object l'élément à ajouter
+     * @return la creation
+     */
     @Override
     public Triangle create(final Triangle object) {
         if(this.find(object.getVariableName()) != null) {
@@ -35,6 +43,11 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * obtenir un élément par son identifiant.
+     * @param id identifiant de l'élément à obtenir
+     * @return l'élément souhaité
+     */
     @Override
     public Triangle find(final String id) {
         for (Triangle f : list) {
@@ -44,6 +57,11 @@ implements Serializable {
         }
         return null;
     }
+    /**
+     * modifie un élément du DAO.
+     * @param object l'élément à modifier
+     * @return la modification
+     */
     @Override
     public Triangle update(final Triangle object) {
         Triangle t = this.find(object.getVariableName());
@@ -55,6 +73,10 @@ implements Serializable {
             return object;
         }
     }
+    /**
+     * supprime un élément du DAO.
+     * @param object élément à supprimer
+     */
     @Override
     public void delete(final Triangle object) {
         list.remove(object);
