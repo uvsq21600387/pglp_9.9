@@ -1,10 +1,18 @@
 package mathieu.pglp_9_9.forme;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 /**
  * forme de type Rectangle avec en mémoire longueur, largeur
  * et position du coin en haut à gauche.
  */
 public class Rectangle extends Forme {
+    /**
+     * serial number.
+     */
+    private static final long serialVersionUID = 4917876269429801659L;
     /**
      * position du coin en haut à gauche du rectangle.
      */
@@ -90,5 +98,33 @@ public class Rectangle extends Forme {
      */
     public void setLongueur(final int longueurRectangle) {
         this.longueur = longueurRectangle;
+    }
+    /**
+     * deserialize vers le fichier voulu.
+     * @param path nom du fichier pour deserializer
+     * @return l'instance de classe créé avec deserialization
+     */
+    public static Rectangle deserialize(final String path) {
+        ObjectInputStream reader = null;
+        Rectangle dp = null;
+        try {
+            FileInputStream file = new FileInputStream(path);
+            reader = new ObjectInputStream(file);
+            dp = (Rectangle) reader.readObject();
+        } catch (IOException e) {
+            System.err.println(
+            "La deserialization a échoué depuis le fichier \""
+            + path + "\"");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+        return dp;
     }
 }

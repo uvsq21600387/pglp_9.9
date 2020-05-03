@@ -1,9 +1,20 @@
 package mathieu.pglp_9_9.forme;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * classe pour une position en 2 dimensions.
  */
-public class Position {
+public class Position implements Serializable {
+    /**
+     * serial number.
+     */
+    private static final long serialVersionUID = 6970534443672751334L;
     /**
      * abscisse.
      */
@@ -88,5 +99,59 @@ public class Position {
     @Override
     public Position clone() {
         return new Position(x,y);
+    }
+    /**
+     * serialize vers le fichier voulu.
+     * @param path nom du fichier vers lequel serializer
+     */
+    public void serialize(final String path) {
+        ObjectOutputStream writer = null;
+        try {
+            FileOutputStream file = new FileOutputStream(path);
+            writer = new ObjectOutputStream(file);
+            writer.writeObject(this);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.err.println(
+            "La serialization a échoué vers le fichier \""
+            + path + "\"");
+        }
+        try {
+            if (writer != null) {
+                writer.flush();
+                writer.close();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+    }
+    /**
+     * deserialize vers le fichier voulu.
+     * @param path nom du fichier pour deserializer
+     * @return l'instance de classe créé avec deserialization
+     */
+    public static Position deserialize(final String path) {
+        ObjectInputStream reader = null;
+        Position dp = null;
+        try {
+            FileInputStream file = new FileInputStream(path);
+            reader = new ObjectInputStream(file);
+            dp = (Position) reader.readObject();
+        } catch (IOException e) {
+            System.err.println(
+            "La deserialization a échoué depuis le fichier \""
+            + path + "\"");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+        return dp;
     }
 }

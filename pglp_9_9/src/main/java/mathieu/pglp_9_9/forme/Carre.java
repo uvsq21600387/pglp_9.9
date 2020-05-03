@@ -1,10 +1,18 @@
 package mathieu.pglp_9_9.forme;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 /**
  * forme de type Carré avec en mémoire longueur
  * et position du coin en haut à gauche.
  */
 public class Carre extends Forme {
+    /**
+     * serial number.
+     */
+    private static final long serialVersionUID = 3673824230090143865L;
     /**
      * position du coin en haut à gauche du carré.
      */
@@ -70,5 +78,33 @@ public class Carre extends Forme {
      */
     public void setLongueur(final int longueurCarre) {
         this.longueur = longueurCarre;
+    }
+    /**
+     * deserialize vers le fichier voulu.
+     * @param path nom du fichier pour deserializer
+     * @return l'instance de classe créé avec deserialization
+     */
+    public static Carre deserialize(final String path) {
+        ObjectInputStream reader = null;
+        Carre dp = null;
+        try {
+            FileInputStream file = new FileInputStream(path);
+            reader = new ObjectInputStream(file);
+            dp = (Carre) reader.readObject();
+        } catch (IOException e) {
+            System.err.println(
+            "La deserialization a échoué depuis le fichier \""
+            + path + "\"");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+        return dp;
     }
 }

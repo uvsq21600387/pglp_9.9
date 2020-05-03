@@ -1,7 +1,11 @@
 package mathieu.pglp_9_9;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import mathieu.pglp_9_9.forme.Forme;
 
 /**
@@ -77,5 +81,33 @@ public class GroupeForme extends Forme implements Serializable {
     @SuppressWarnings("unchecked")
     public ArrayList<Forme> getList() {
         return (ArrayList<Forme>) formes.clone();
+    }
+    /**
+     * deserialize vers le fichier voulu.
+     * @param path nom du fichier pour deserializer
+     * @return l'instance de classe créé avec deserialization
+     */
+    public static GroupeForme deserialize(final String path) {
+        ObjectInputStream reader = null;
+        GroupeForme dp = null;
+        try {
+            FileInputStream file = new FileInputStream(path);
+            reader = new ObjectInputStream(file);
+            dp = (GroupeForme) reader.readObject();
+        } catch (IOException e) {
+            System.err.println(
+            "La deserialization a échoué depuis le fichier \""
+            + path + "\"");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+        return dp;
     }
 }

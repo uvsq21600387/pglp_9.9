@@ -1,9 +1,17 @@
 package mathieu.pglp_9_9.forme;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 /**
  * forme de type Triangle.
  */
-public class Triangle extends Forme {
+public class Triangle extends Forme  {
+    /**
+     * serial number.
+     */
+    private static final long serialVersionUID = -5845584621462344970L;
     /**
      * ensemble des 3 points d'un triangle.
      */
@@ -65,5 +73,33 @@ public class Triangle extends Forme {
         } else {
             points[index] = point.clone();
         }
+    }
+    /**
+     * deserialize vers le fichier voulu.
+     * @param path nom du fichier pour deserializer
+     * @return l'instance de classe créé avec deserialization
+     */
+    public static Triangle deserialize(final String path) {
+        ObjectInputStream reader = null;
+        Triangle dp = null;
+        try {
+            FileInputStream file = new FileInputStream(path);
+            reader = new ObjectInputStream(file);
+            dp = (Triangle) reader.readObject();
+        } catch (IOException e) {
+            System.err.println(
+            "La deserialization a échoué depuis le fichier \""
+            + path + "\"");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+        return dp;
     }
 }

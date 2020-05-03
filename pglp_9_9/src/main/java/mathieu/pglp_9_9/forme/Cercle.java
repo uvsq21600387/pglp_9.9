@@ -1,9 +1,17 @@
 package mathieu.pglp_9_9.forme;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 /**
  * classe Cercle qui est une forme.
  */
 public class Cercle extends Forme {
+    /**
+     * serial number.
+     */
+    private static final long serialVersionUID = -1029141195274921930L;
     /**
      * position du centre du cercle.
      */
@@ -68,5 +76,33 @@ public class Cercle extends Forme {
      */
     public void setCentre(final Position centre) {
         this.centre = centre.clone();
+    }
+    /**
+     * deserialize vers le fichier voulu.
+     * @param path nom du fichier pour deserializer
+     * @return l'instance de classe créé avec deserialization
+     */
+    public static Cercle deserialize(final String path) {
+        ObjectInputStream reader = null;
+        Cercle dp = null;
+        try {
+            FileInputStream file = new FileInputStream(path);
+            reader = new ObjectInputStream(file);
+            dp = (Cercle) reader.readObject();
+        } catch (IOException e) {
+            System.err.println(
+            "La deserialization a échoué depuis le fichier \""
+            + path + "\"");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+        return dp;
     }
 }
