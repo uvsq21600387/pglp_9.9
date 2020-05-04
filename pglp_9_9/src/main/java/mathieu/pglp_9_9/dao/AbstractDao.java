@@ -1,5 +1,7 @@
 package mathieu.pglp_9_9.dao;
 
+import java.util.ArrayList;
+
 /**
  * classe abstraite pour tous les dao.
  * @param <T> type de forme
@@ -17,6 +19,11 @@ public abstract class AbstractDao<T> {
      * @return l'élément souhaité
      */
     public abstract T find(String id);
+    /**
+     * obtenir tous les éléments.
+     * @return tous les éléments
+     */
+    public abstract ArrayList<T> findAll();
     /**
      * modifie un élément du DAO.
      * @param object l'élément à modifier

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import mathieu.pglp_9_9.forme.Position;
 import mathieu.pglp_9_9.forme.Triangle;
@@ -24,11 +25,11 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
         connect = c;
     }
     /**
-     * ajoute un élément au DAO.
-     * @param object l'élément à ajouter
-     * @return la creation
+     * supprime toutes les associations
+     * de la forme contenu dans les groupes.
+     * @param id identifiant de la forme
      */
-    private void deleteCompositionTriangle(String id) {
+    private void deleteCompositionTriangle(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
@@ -45,7 +46,8 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
      */
     @Override
     public Triangle create(final Triangle object) {
-        final int un = 1, deux = 2, trois = 3, quatre = 4,cinq = 5, six = 6, sept = 7;
+        final int un = 1, deux = 2, trois = 3,
+                quatre = 4, cinq = 5, six = 6, sept = 7;
         try {
             PreparedStatement prepare = connect.prepareStatement(
             "INSERT INTO Triangle"
@@ -83,7 +85,7 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
             prepare.setString(un, id);
             ResultSet result = prepare.executeQuery();
             if (result.next()) {
-                Position p[] = {
+                Position[] p = {
                     new Position(
                             result.getInt("point1_x"),
                             result.getInt("point1_y")),
@@ -94,11 +96,31 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
                             result.getInt("point3_x"),
                             result.getInt("point3_y")),
                 };
-                find = new Triangle(id, p[0],p[1], p[2]);
+                find = new Triangle(id, p[0], p[1], p[2]);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+        return find;
+    }
+    /**
+     * obtenir tous les éléments.
+     * @return tous les éléments
+     */
+    @Override
+    public ArrayList<Triangle> findAll() {
+        ArrayList<Triangle> find = new ArrayList<Triangle>();
+        try {
+            PreparedStatement prepare = connect.prepareStatement(
+                    "SELECT variableName FROM Triangle");
+            ResultSet result = prepare.executeQuery();
+            while (result.next()) {
+                find.add(this.find(result.getString("variableName")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<Triangle>();
         }
         return find;
     }
@@ -109,7 +131,8 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
      */
     @Override
     public Triangle update(final Triangle object) {
-        final int un = 1, deux = 2, trois = 3, quatre = 4,cinq = 5, six = 6, sept = 7;
+        final int un = 1, deux = 2, trois = 3,
+                quatre = 4, cinq = 5, six = 6, sept = 7;
         final Triangle before = this.find(object.getVariableName());
         if (before != null) {
             try {

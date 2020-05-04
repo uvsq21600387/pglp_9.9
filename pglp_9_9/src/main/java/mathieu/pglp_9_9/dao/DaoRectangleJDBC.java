@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import mathieu.pglp_9_9.forme.Position;
 import mathieu.pglp_9_9.forme.Rectangle;
@@ -26,7 +27,7 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
     /**
      * supprime toutes les associations
      * de la forme contenu dans les groupes.
-     * @param id identifiant de la forme 
+     * @param id identifiant de la forme
      */
     private void deleteCompositionRectangle(final String id) {
         final int un = 1;
@@ -45,7 +46,8 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
      */
     @Override
     public Rectangle create(final Rectangle object) {
-        final int un = 1, deux = 2, trois = 3, quatre = 4,cinq = 5;
+        final int un = 1, deux = 2, trois = 3,
+                quatre = 4, cinq = 5;
         try {
             PreparedStatement prepare = connect.prepareStatement(
             "INSERT INTO Rectangle"
@@ -82,7 +84,7 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
                         result.getInt("topLeft_x"),
                         result.getInt("topLeft_y")
                 );
-                find = new Rectangle(id,p, 
+                find = new Rectangle(id, p,
                         result.getInt("longueur"),
                         result.getInt("largeur")
                 );
@@ -90,6 +92,26 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+        return find;
+    }
+    /**
+     * obtenir tous les éléments.
+     * @return tous les éléments
+     */
+    @Override
+    public ArrayList<Rectangle> findAll() {
+        ArrayList<Rectangle> find = new ArrayList<Rectangle>();
+        try {
+            PreparedStatement prepare = connect.prepareStatement(
+                    "SELECT variableName FROM Triangle");
+            ResultSet result = prepare.executeQuery();
+            while (result.next()) {
+                find.add(this.find(result.getString("variableName")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<Rectangle>();
         }
         return find;
     }

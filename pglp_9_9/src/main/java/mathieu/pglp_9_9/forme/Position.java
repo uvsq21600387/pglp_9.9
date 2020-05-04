@@ -1,20 +1,11 @@
 package mathieu.pglp_9_9.forme;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.CharConversionException;
 
 /**
  * classe pour une position en 2 dimensions.
  */
-public class Position implements Serializable {
-    /**
-     * serial number.
-     */
-    private static final long serialVersionUID = 6970534443672751334L;
+public class Position {
     /**
      * abscisse.
      */
@@ -32,25 +23,31 @@ public class Position implements Serializable {
     }
     /**
      * constructeur de la classe avec x et y.
-     * @param x valeur en abscisse
-     * @param y valeur en ordonnée
+     * @param xValue valeur en abscisse
+     * @param yValue valeur en ordonnée
      */
-    public Position(final int x_value, final int y_value) {
-        x = x_value;
-        y = y_value;
+    public Position(final int xValue, final int yValue) {
+        x = xValue;
+        y = yValue;
     }
     /**
      * constructeur de position avec un type String.
      * syntaxe : (x,y)
      * @param position string contenant la position.
+     * @throws CharConversionException invalid String
      */
-    public Position(final String position) {
-        if (position.charAt(0) != '(' || position.charAt(position.length() - 1) != ')') {
-            //exception
+    public Position(final String position) throws CharConversionException {
+        position.replace(" ", "");
+        if (position.charAt(0) != '('
+        || position.charAt(position.length() - 1) != ')') {
+            System.err.println(position);
+            throw new CharConversionException();
         }
+        position.substring(1, position.length() - 1);
         String[] positionSplit = position.split(",");
         if (positionSplit.length != 2) {
-            //exception
+            System.err.println(position);
+            throw new CharConversionException();
         }
         final int xP = x;
         final int yP = y;
@@ -79,15 +76,16 @@ public class Position implements Serializable {
     }
     /**
      * déplace cette position selon les paramètres.
-     * @param x_value décalage en abscisse par rapport à l'origine
-     * @param y_value décalage en ordonnée par rapport à l'origine
+     * @param xValue décalage en abscisse par rapport à l'origine
+     * @param yValue décalage en ordonnée par rapport à l'origine
      */
-    public void deplace(final int x_value, final int y_value) {
-        x += x_value;
-        y += y_value;
+    public void deplace(final int xValue, final int yValue) {
+        x += xValue;
+        y += yValue;
     }
     /**
      * conversion en String d'une position.
+     * @return position converti en chaine de caractère
      */
     public String toString() {
         return "(" + x + "," + y + ")";
@@ -98,60 +96,6 @@ public class Position implements Serializable {
      */
     @Override
     public Position clone() {
-        return new Position(x,y);
-    }
-    /**
-     * serialize vers le fichier voulu.
-     * @param path nom du fichier vers lequel serializer
-     */
-    public void serialize(final String path) {
-        ObjectOutputStream writer = null;
-        try {
-            FileOutputStream file = new FileOutputStream(path);
-            writer = new ObjectOutputStream(file);
-            writer.writeObject(this);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            System.err.println(
-            "La serialization a échoué vers le fichier \""
-            + path + "\"");
-        }
-        try {
-            if (writer != null) {
-                writer.flush();
-                writer.close();
-            }
-        } catch (IOException e2) {
-            e2.printStackTrace();
-        }
-    }
-    /**
-     * deserialize vers le fichier voulu.
-     * @param path nom du fichier pour deserializer
-     * @return l'instance de classe créé avec deserialization
-     */
-    public static Position deserialize(final String path) {
-        ObjectInputStream reader = null;
-        Position dp = null;
-        try {
-            FileInputStream file = new FileInputStream(path);
-            reader = new ObjectInputStream(file);
-            dp = (Position) reader.readObject();
-        } catch (IOException e) {
-            System.err.println(
-            "La deserialization a échoué depuis le fichier \""
-            + path + "\"");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (reader != null) {
-                reader.close();
-            }
-        } catch (IOException e2) {
-            e2.printStackTrace();
-        }
-        return dp;
+        return new Position(x, y);
     }
 }

@@ -5,7 +5,23 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * gestion de la bdd.
+ */
 public abstract class Bdd {
+    /**
+     * obtenir la connection à la bdd.
+     * @return connection à la bdd
+     */
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(
+                    "jdbc:derby:bdd9;create=false");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * créer la base de donnée.
      * @throws Exception erreur de création
@@ -180,7 +196,8 @@ public abstract class Bdd {
                 + "primary key (idGroupe, idGroupeComposant),"
                 + "foreign key (idGroupe) references "
                 + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) references GroupeForme (variableName)"
+                + "foreign key (idGroupeComposant) "
+                + "references GroupeForme (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -198,7 +215,8 @@ public abstract class Bdd {
                 + "primary key (idGroupe, idGroupeComposant),"
                 + "foreign key (idGroupe) references "
                 + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) references Triangle (variableName)"
+                + "foreign key (idGroupeComposant) "
+                + "references Triangle (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -216,7 +234,8 @@ public abstract class Bdd {
                 + "primary key (idGroupe, idGroupeComposant),"
                 + "foreign key (idGroupe) references "
                 + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) references Carre (variableName)"
+                + "foreign key (idGroupeComposant) "
+                + "references Carre (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -234,7 +253,8 @@ public abstract class Bdd {
                 + "primary key (idGroupe, idGroupeComposant),"
                 + "foreign key (idGroupe) references "
                 + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) references Rectangle (variableName)"
+                + "foreign key (idGroupeComposant) "
+                + "references Rectangle (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -252,7 +272,8 @@ public abstract class Bdd {
                 + "primary key (idGroupe, idGroupeComposant),"
                 + "foreign key (idGroupe) references "
                 + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) references Cercle (variableName)"
+                + "foreign key (idGroupeComposant) "
+                + "references Cercle (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);

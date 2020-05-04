@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import mathieu.pglp_9_9.forme.Cercle;
 import mathieu.pglp_9_9.forme.Position;
@@ -26,7 +27,7 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
     /**
      * supprime toutes les associations
      * de la forme contenu dans les groupes.
-     * @param id identifiant de la forme 
+     * @param id identifiant de la forme
      */
     private void deleteCompositionCercle(final String id) {
         final int un = 1;
@@ -77,12 +78,34 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
             prepare.setString(un, id);
             ResultSet result = prepare.executeQuery();
             if (result.next()) {
-                Position centre = new Position(result.getInt("centre_x"),result.getInt("centre_y"));
-                find = new Cercle(id,centre, result.getInt("rayon"));
+                Position centre = new Position(
+                        result.getInt("centre_x"),
+                        result.getInt("centre_y"));
+                find = new Cercle(id, centre, result.getInt("rayon"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+        return find;
+    }
+    /**
+     * obtenir tous les éléments.
+     * @return tous les éléments
+     */
+    @Override
+    public ArrayList<Cercle> findAll() {
+        ArrayList<Cercle> find = new ArrayList<Cercle>();
+        try {
+            PreparedStatement prepare = connect.prepareStatement(
+                    "SELECT variableName FROM Triangle");
+            ResultSet result = prepare.executeQuery();
+            while (result.next()) {
+                find.add(this.find(result.getString("variableName")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<Cercle>();
         }
         return find;
     }

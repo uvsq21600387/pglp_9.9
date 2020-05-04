@@ -1,18 +1,10 @@
 package mathieu.pglp_9_9.forme;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 /**
  * forme de type Rectangle avec en mémoire longueur, largeur
  * et position du coin en haut à gauche.
  */
 public class Rectangle extends Forme {
-    /**
-     * serial number.
-     */
-    private static final long serialVersionUID = 4917876269429801659L;
     /**
      * position du coin en haut à gauche du rectangle.
      */
@@ -27,14 +19,14 @@ public class Rectangle extends Forme {
     private int largeur;
     /**
      * constructeur d'un rectangle avec position du coin en haut à gauche.
-     * @param nom_de_variable nom de variable pour créer le rectangle
+     * @param nomVariable nom de variable pour créer le rectangle
      * @param topLeftPosition position du coin en haut à gauche du rectangle
      * @param longueurRectangle longueur du rectangle
      * @param largeurRectangle largeur du rectangle
      */
-    public Rectangle(final String nom_de_variable, final Position topLeftPosition,
+    public Rectangle(final String nomVariable, final Position topLeftPosition,
             final int longueurRectangle, final int largeurRectangle) {
-        super(nom_de_variable);
+        super(nomVariable);
         this.topLeft = topLeftPosition.clone();
         this.longueur = longueurRectangle;
         this.largeur = largeurRectangle;
@@ -80,10 +72,10 @@ public class Rectangle extends Forme {
     }
     /**
      * modifier la largeur du rectangle.
-     * @param largeur nouvelle valeur pour la largeur
+     * @param largeurRectangle nouvelle valeur pour la largeur
      */
-    public void setLargeur(final int largeur) {
-        this.largeur = largeur;
+    public void setLargeur(final int largeurRectangle) {
+        this.largeur = largeurRectangle;
     }
     /**
      * obtenir la longueur du rectangle.
@@ -98,33 +90,5 @@ public class Rectangle extends Forme {
      */
     public void setLongueur(final int longueurRectangle) {
         this.longueur = longueurRectangle;
-    }
-    /**
-     * deserialize vers le fichier voulu.
-     * @param path nom du fichier pour deserializer
-     * @return l'instance de classe créé avec deserialization
-     */
-    public static Rectangle deserialize(final String path) {
-        ObjectInputStream reader = null;
-        Rectangle dp = null;
-        try {
-            FileInputStream file = new FileInputStream(path);
-            reader = new ObjectInputStream(file);
-            dp = (Rectangle) reader.readObject();
-        } catch (IOException e) {
-            System.err.println(
-            "La deserialization a échoué depuis le fichier \""
-            + path + "\"");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (reader != null) {
-                reader.close();
-            }
-        } catch (IOException e2) {
-            e2.printStackTrace();
-        }
-        return dp;
     }
 }

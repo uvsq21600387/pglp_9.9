@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import mathieu.pglp_9_9.forme.Carre;
 import mathieu.pglp_9_9.forme.Position;
@@ -26,7 +27,7 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
     /**
      * supprime toutes les associations
      * de la forme contenu dans les groupes.
-     * @param id identifiant de la forme 
+     * @param id identifiant de la forme
      */
     private void deleteCompositionCarre(final String id) {
         final int un = 1;
@@ -77,12 +78,33 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
             prepare.setString(un, id);
             ResultSet result = prepare.executeQuery();
             if (result.next()) {
-                Position p = new Position(result.getInt("topLeft_x"),result.getInt("topLeft_y"));
-                find = new Carre(id,p, result.getInt("longueur"));
+                Position p = new Position(result.getInt("topLeft_x"),
+                        result.getInt("topLeft_y"));
+                find = new Carre(id, p, result.getInt("longueur"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+        return find;
+    }
+    /**
+     * obtenir tous les éléments.
+     * @return tous les éléments
+     */
+    @Override
+    public ArrayList<Carre> findAll() {
+        ArrayList<Carre> find = new ArrayList<Carre>();
+        try {
+            PreparedStatement prepare = connect.prepareStatement(
+                    "SELECT variableName FROM Triangle");
+            ResultSet result = prepare.executeQuery();
+            while (result.next()) {
+                find.add(this.find(result.getString("variableName")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<Carre>();
         }
         return find;
     }

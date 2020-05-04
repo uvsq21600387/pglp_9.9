@@ -2,32 +2,31 @@ package mathieu.pglp_9_9.dao;
 
 import java.sql.Connection;
 
-import mathieu.pglp_9_9.GroupeForme;
+import mathieu.pglp_9_9.bdd.Bdd;
 import mathieu.pglp_9_9.forme.Carre;
 import mathieu.pglp_9_9.forme.Cercle;
+import mathieu.pglp_9_9.forme.GroupeForme;
 import mathieu.pglp_9_9.forme.Rectangle;
 import mathieu.pglp_9_9.forme.Triangle;
 
 /**
  * pattern factory pour les Dao à opérations JDBC.
  */
-public class DaoFactoryJDBC extends AbstractDaoFactory {
+public class DaoFactoryJDBC {
     /**
      * connection à la bdd.
      */
     private Connection connect;
     /**
      * constructeur de la classe.
-     * @param c connection à la bdd
      */
-    public DaoFactoryJDBC(final Connection c) {
-        connect = c;
+    public DaoFactoryJDBC() {
+        connect = Bdd.getConnection();
     }
     /**
      * retourne le dao.
      * @return le dao
      */
-    @Override
     public AbstractDao<Cercle> getDaoCercle() {
         return new DaoCercleJDBC(connect);
     }
@@ -35,7 +34,6 @@ public class DaoFactoryJDBC extends AbstractDaoFactory {
      * retourne le dao.
      * @return le dao
      */
-    @Override
     public AbstractDao<Carre> getDaoCarre() {
         return new DaoCarreJDBC(connect);
     }
@@ -43,7 +41,6 @@ public class DaoFactoryJDBC extends AbstractDaoFactory {
      * retourne le dao.
      * @return le dao
      */
-    @Override
     public AbstractDao<Rectangle> getDaoRectangle() {
         return new DaoRectangleJDBC(connect);
     }
@@ -51,7 +48,6 @@ public class DaoFactoryJDBC extends AbstractDaoFactory {
      * retourne le dao.
      * @return le dao
      */
-    @Override
     public AbstractDao<Triangle> getDaoTriangle() {
         return new DaoTriangleJDBC(connect);
     }
@@ -59,7 +55,6 @@ public class DaoFactoryJDBC extends AbstractDaoFactory {
      * retourne le dao.
      * @return le dao
      */
-    @Override
     public AbstractDao<GroupeForme> getDaoGroupeForme() {
         return new DaoGroupeFormeJDBC(connect);
     }
