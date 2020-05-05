@@ -29,11 +29,11 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
      * de la forme contenu dans les groupes.
      * @param id identifiant de la forme
      */
-    private void deleteCompositionTriangle(final String id) {
+    private void deleteComposant(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionTriangle WHERE idComposant = ?");
+                    "DELETE FROM Composition WHERE idComposant = ?");
             prepare.setString(un, id);
             prepare.executeUpdate();
         } catch (SQLException e) {
@@ -50,12 +50,18 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
                 quatre = 4, cinq = 5, six = 6, sept = 7;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO Triangle"
-            + " (variableName,"
-            + "point1_x,point1_y,"
-            + "point2_x,point2_y,"
-            + "point3_x,point3_y,)"
-            + " VALUES(?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO Forme"
+                    + " (variableName)"
+                    + " VALUES(?)");
+                    prepare.setString(un, object.getVariableName());
+                    prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "INSERT INTO Triangle"
+                    + " (variableName,"
+                    + "point1_x,point1_y,"
+                    + "point2_x,point2_y,"
+                    + "point3_x,point3_y,)"
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?)");
             prepare.setString(un, object.getVariableName());
             prepare.setInt(deux, object.getPosition(0).getX());
             prepare.setInt(trois, object.getPosition(0).getY());
@@ -165,9 +171,13 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
     public void delete(final Triangle object) {
         final int un = 1;
         try {
-            this.deleteCompositionTriangle(object.getVariableName());
+            this.deleteComposant(object.getVariableName());
             PreparedStatement prepare = connect.prepareStatement(
                     "DELETE FROM Triangle WHERE variableName = ?");
+            prepare.setString(un, object.getVariableName());
+            prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "DELETE FROM Forme WHERE variableName = ?");
             prepare.setString(un, object.getVariableName());
             prepare.executeUpdate();
         } catch (SQLException e) {

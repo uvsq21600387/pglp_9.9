@@ -29,11 +29,11 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
      * de la forme contenu dans les groupes.
      * @param id identifiant de la forme
      */
-    private void deleteCompositionRectangle(final String id) {
+    private void deleteComposant(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionRectangle WHERE idComposant = ?");
+                    "DELETE FROM Composition WHERE idComposant = ?");
             prepare.setString(un, id);
             prepare.executeUpdate();
         } catch (SQLException e) {
@@ -50,9 +50,15 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
                 quatre = 4, cinq = 5;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO Rectangle"
-            + " (variableName,topLeft_x,topLeft_y,longueur,largeur)"
-            + " VALUES(?, ?, ?, ?, ?)");
+                    "INSERT INTO Forme"
+                    + " (variableName)"
+                    + " VALUES(?)");
+                    prepare.setString(un, object.getVariableName());
+                    prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "INSERT INTO Rectangle"
+                    + " (variableName,topLeft_x,topLeft_y,longueur,largeur)"
+                    + " VALUES(?, ?, ?, ?, ?)");
             prepare.setString(un, object.getVariableName());
             prepare.setInt(deux, object.getTopLeft().getX());
             prepare.setInt(trois, object.getTopLeft().getY());
@@ -152,9 +158,13 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
     public void delete(final Rectangle object) {
         final int un = 1;
         try {
-            this.deleteCompositionRectangle(object.getVariableName());
+            this.deleteComposant(object.getVariableName());
             PreparedStatement prepare = connect.prepareStatement(
                     "DELETE FROM Rectangle WHERE variableName = ?");
+            prepare.setString(un, object.getVariableName());
+            prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "DELETE FROM Forme WHERE variableName = ?");
             prepare.setString(un, object.getVariableName());
             prepare.executeUpdate();
         } catch (SQLException e) {

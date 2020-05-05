@@ -29,11 +29,11 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
      * de la forme contenu dans les groupes.
      * @param id identifiant de la forme
      */
-    private void deleteCompositionCercle(final String id) {
+    private void deleteComposant(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionCercle WHERE idComposant = ?");
+                    "DELETE FROM Composition WHERE idComposant = ?");
             prepare.setString(un, id);
             prepare.executeUpdate();
         } catch (SQLException e) {
@@ -49,9 +49,15 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
         final int un = 1, deux = 2, trois = 3, quatre = 4;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO Cercle"
-            + " (variableName,centre_x,centre_y,rayon)"
-            + " VALUES(?, ?, ?, ?)");
+                    "INSERT INTO Forme"
+                    + " (variableName)"
+                    + " VALUES(?)");
+                    prepare.setString(un, object.getVariableName());
+                    prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "INSERT INTO Cercle"
+                    + " (variableName,centre_x,centre_y,rayon)"
+                    + " VALUES(?, ?, ?, ?)");
             prepare.setString(un, object.getVariableName());
             prepare.setInt(deux, object.getCentre().getX());
             prepare.setInt(trois, object.getCentre().getY());
@@ -145,9 +151,13 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
     public void delete(final Cercle object) {
         final int un = 1;
         try {
-            this.deleteCompositionCercle(object.getVariableName());
+            this.deleteComposant(object.getVariableName());
             PreparedStatement prepare = connect.prepareStatement(
                     "DELETE FROM Cercle WHERE variableName = ?");
+            prepare.setString(un, object.getVariableName());
+            prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "DELETE FROM Forme WHERE variableName = ?");
             prepare.setString(un, object.getVariableName());
             prepare.executeUpdate();
         } catch (SQLException e) {

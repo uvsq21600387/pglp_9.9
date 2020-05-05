@@ -29,11 +29,11 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
      * de la forme contenu dans les groupes.
      * @param id identifiant de la forme
      */
-    private void deleteCompositionCarre(final String id) {
+    private void deleteComposant(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionCarre WHERE idComposant = ?");
+                    "DELETE FROM Composition WHERE idComposant = ?");
             prepare.setString(un, id);
             prepare.executeUpdate();
         } catch (SQLException e) {
@@ -49,9 +49,15 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
         final int un = 1, deux = 2, trois = 3, quatre = 4;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO Carre"
-            + " (variableName,topLeft_x,topLeft_y,longueur)"
-            + " VALUES(?, ?, ?, ?)");
+                    "INSERT INTO Forme"
+                    + " (variableName)"
+                    + " VALUES(?)");
+                    prepare.setString(un, object.getVariableName());
+                    prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "INSERT INTO Carre"
+                    + " (variableName,topLeft_x,topLeft_y,longueur)"
+                    + " VALUES(?, ?, ?, ?)");
             prepare.setString(un, object.getVariableName());
             prepare.setInt(deux, object.getTopLeft().getX());
             prepare.setInt(trois, object.getTopLeft().getY());
@@ -144,9 +150,13 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
     public void delete(final Carre object) {
         final int un = 1;
         try {
-            this.deleteCompositionCarre(object.getVariableName());
+            this.deleteComposant(object.getVariableName());
             PreparedStatement prepare = connect.prepareStatement(
                     "DELETE FROM Carre WHERE variableName = ?");
+            prepare.setString(un, object.getVariableName());
+            prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "DELETE FROM Forme WHERE variableName = ?");
             prepare.setString(un, object.getVariableName());
             prepare.executeUpdate();
         } catch (SQLException e) {

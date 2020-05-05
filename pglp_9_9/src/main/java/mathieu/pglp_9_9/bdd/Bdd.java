@@ -30,17 +30,14 @@ public abstract class Bdd {
         Connection connect = DriverManager.getConnection(
                 "jdbc:derby:bdd9;create=false");
         Bdd.delTables(connect);
+        Bdd.initTableForme(connect);
         Bdd.initTableTriangle(connect);
         Bdd.initTableCarre(connect);
         initTableRectangle(connect);
         initTableCercle(connect);
         initTableRectangle(connect);
         initTableGroupeForme(connect);
-        initTableRelationGG(connect);
-        initTableRelationGCe(connect);
-        initTableRelationGCa(connect);
-        initTableRelationGR(connect);
-        initTableRelationGT(connect);
+        initTableRelation(connect);
     }
     /**
      * créer la bdd.
@@ -62,23 +59,7 @@ public abstract class Bdd {
             e.printStackTrace();
         }
         try {
-            stat.execute("drop table CompositionTriangle");
-        } catch (SQLException e) {
-        }
-        try {
-            stat.execute("drop table CompositionCercle");
-        } catch (SQLException e) {
-        }
-        try {
-            stat.execute("drop table CompositionCarre");
-        } catch (SQLException e) {
-        }
-        try {
-            stat.execute("drop table CompositionRectangle");
-        } catch (SQLException e) {
-        }
-        try {
-            stat.execute("drop table CompositionGroupe");
+            stat.execute("drop table Composition");
         } catch (SQLException e) {
         }
         try {
@@ -101,6 +82,23 @@ public abstract class Bdd {
             stat.execute("drop table Triangle");
         } catch (SQLException e) {
         }
+        try {
+            stat.execute("drop table Forme");
+        } catch (SQLException e) {
+        }
+    }
+    /**
+     * créer la table Forme.
+     * @param connect connexion a la bdd
+     * @throws SQLException erreur sql
+     */
+    private static void initTableForme(final Connection connect)
+            throws SQLException {
+        String table = "create table Forme ("
+                + "variableName varchar(30) primary key"
+                + ")";
+        Statement stat = connect.createStatement();
+        stat.execute(table);
     }
     /**
      * créer la table Triangle.
@@ -117,6 +115,7 @@ public abstract class Bdd {
                 + "point2_y int,"
                 + "point3_x int,"
                 + "point3_y int,"
+                + "foreign key (variableName) references Forme (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -132,7 +131,8 @@ public abstract class Bdd {
                 + "variableName varchar(30) primary key,"
                 + "topLeft_x int,"
                 + "topLeft_y int,"
-                + "longueur int"
+                + "longueur int,"
+                + "foreign key (variableName) references Forme (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -149,7 +149,8 @@ public abstract class Bdd {
                 + "topLeft_x int,"
                 + "topLeft_y int,"
                 + "longueur int,"
-                + "largeur int"
+                + "largeur int,"
+                + "foreign key (variableName) references Forme (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -165,7 +166,8 @@ public abstract class Bdd {
                 + "variableName varchar(30) primary key,"
                 + "centre_x int,"
                 + "centre_y int,"
-                + "rayon int"
+                + "rayon int,"
+                + "foreign key (variableName) references Forme (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -178,7 +180,8 @@ public abstract class Bdd {
     private static void initTableGroupeForme(final Connection connect)
             throws SQLException {
         String table = "create table GroupeForme ("
-                + "variableName varchar(30) primary key"
+                + "variableName varchar(30) primary key,"
+                + "foreign key (variableName) references Forme (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
@@ -188,92 +191,16 @@ public abstract class Bdd {
      * @param connect connexion a la bdd
      * @throws SQLException erreur sql
      */
-    private static void initTableRelationGG(final Connection connect)
+    private static void initTableRelation(final Connection connect)
             throws SQLException {
-        String table = "create table CompositionGroupe ("
+        String table = "create table Composition ("
                 + "idGroupe varchar(30),"
                 + "idGroupeComposant varchar(30),"
                 + "primary key (idGroupe, idGroupeComposant),"
                 + "foreign key (idGroupe) references "
                 + "GroupeForme (variableName),"
                 + "foreign key (idGroupeComposant) "
-                + "references GroupeForme (variableName)"
-                + ")";
-        Statement stat = connect.createStatement();
-        stat.execute(table);
-    }
-    /**
-     * créer la table de composition entre groupeForme et GroupeForme.
-     * @param connect connexion a la bdd
-     * @throws SQLException erreur sql
-     */
-    private static void initTableRelationGT(final Connection connect)
-            throws SQLException {
-        String table = "create table CompositionTriangle ("
-                + "idGroupe varchar(30),"
-                + "idComposant varchar(30),"
-                + "primary key (idGroupe, idGroupeComposant),"
-                + "foreign key (idGroupe) references "
-                + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) "
-                + "references Triangle (variableName)"
-                + ")";
-        Statement stat = connect.createStatement();
-        stat.execute(table);
-    }
-    /**
-     * créer la table de composition entre groupeForme et GroupeForme.
-     * @param connect connexion a la bdd
-     * @throws SQLException erreur sql
-     */
-    private static void initTableRelationGCa(final Connection connect)
-            throws SQLException {
-        String table = "create table CompositionCarre ("
-                + "idGroupe varchar(30),"
-                + "idComposant varchar(30),"
-                + "primary key (idGroupe, idGroupeComposant),"
-                + "foreign key (idGroupe) references "
-                + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) "
-                + "references Carre (variableName)"
-                + ")";
-        Statement stat = connect.createStatement();
-        stat.execute(table);
-    }
-    /**
-     * créer la table de composition entre groupeForme et GroupeForme.
-     * @param connect connexion a la bdd
-     * @throws SQLException erreur sql
-     */
-    private static void initTableRelationGR(final Connection connect)
-            throws SQLException {
-        String table = "create table CompositionRectangle ("
-                + "idGroupe varchar(30),"
-                + "idComposant varchar(30),"
-                + "primary key (idGroupe, idGroupeComposant),"
-                + "foreign key (idGroupe) references "
-                + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) "
-                + "references Rectangle (variableName)"
-                + ")";
-        Statement stat = connect.createStatement();
-        stat.execute(table);
-    }
-    /**
-     * créer la table de composition entre groupeForme et GroupeForme.
-     * @param connect connexion a la bdd
-     * @throws SQLException erreur sql
-     */
-    private static void initTableRelationGCe(final Connection connect)
-            throws SQLException {
-        String table = "create table CompositionCercle ("
-                + "idGroupe varchar(30),"
-                + "idComposant varchar(30),"
-                + "primary key (idGroupe, idGroupeComposant),"
-                + "foreign key (idGroupe) references "
-                + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) "
-                + "references Cercle (variableName)"
+                + "references Forme (variableName)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);

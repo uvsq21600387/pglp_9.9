@@ -29,16 +29,16 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
         connect = c;
     }
     /**
-     * créé une association d'un groupe qui contient un Cercle.
+     * créé une association d'un groupe qui contient une forme.
      * @param idGroupe groupe qui contient
      * @param idComposant forme qui compose le groupe
      */
-    public void createCompositionCercle(
+    public void createComposition(
             final String idGroupe, final String idComposant) {
         final int un = 1, deux = 2;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO CompositionCercle"
+            "INSERT INTO Composition"
             + " (idGroupe, idComposant)"
             + " VALUES(?, ?)");
             prepare.setString(un, idGroupe);
@@ -46,203 +46,6 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
             prepare.executeUpdate();
         } catch (SQLException e) {
         }
-    }
-    /**
-     * créé une association d'un groupe qui contient un Carré.
-     * @param idGroupe groupe qui contient
-     * @param idComposant forme qui compose le groupe
-     */
-    public void createCompositionCarre(
-            final String idGroupe, final String idComposant) {
-        final int un = 1, deux = 2;
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO CompositionCarre"
-            + " (idGroupe, idComposant)"
-            + " VALUES(?, ?)");
-            prepare.setString(un, idGroupe);
-            prepare.setString(deux, idComposant);
-            prepare.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-    /**
-     * créé une association d'un groupe qui contient un Rectangle.
-     * @param idGroupe groupe qui contient
-     * @param idComposant forme qui compose le groupe
-     */
-    public void createCompositionRectangle(
-            final String idGroupe, final String idComposant) {
-        final int un = 1, deux = 2;
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO CompositionRectangle"
-            + " (idGroupe, idComposant)"
-            + " VALUES(?, ?)");
-            prepare.setString(un, idGroupe);
-            prepare.setString(deux, idComposant);
-            prepare.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-    /**
-     * créé une association d'un groupe qui contient un triangle.
-     * @param idGroupe groupe qui contient
-     * @param idComposant forme qui compose le groupe
-     */
-    public void createCompositionTriangle(
-            final String idGroupe, final String idComposant) {
-        final int un = 1, deux = 2;
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO CompositionTriangle"
-            + " (idGroupe, idComposant)"
-            + " VALUES(?, ?)");
-            prepare.setString(un, idGroupe);
-            prepare.setString(deux, idComposant);
-            prepare.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-    /**
-     * créé une association d'un groupe qui contient un groupe.
-     * @param idGroupe groupe qui contient
-     * @param idComposant groupe qui compose le groupe
-     */
-    public void createCompositionGroupe(
-            final String idGroupe, final String idComposant) {
-        final int un = 1, deux = 2;
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO CompositionGroupe"
-            + " (idGroupe, idComposant)"
-            + " VALUES(?, ?)");
-            prepare.setString(un, idGroupe);
-            prepare.setString(deux, idComposant);
-            prepare.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-    /**
-     * recherche toutes les associations d'un groupe qui contient des Cercles.
-     * @param id identifiant du groupe
-     * @return listes des composants de type Cercle du groupe
-     */
-    public ArrayList<Forme> findCompositionCercle(final String id) {
-        final int un = 1;
-        ArrayList<Forme> find = new ArrayList<Forme>();
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT idComposant "
-                    + "FROM CompositionCercle WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            ResultSet result = prepare.executeQuery();
-            DaoFactoryJDBC factory = new DaoFactoryJDBC();
-            AbstractDao<Cercle> dao = factory.getDaoCercle();
-            while (result.next()) {
-                find.add(dao.find(result.getString("idComposant")));
-            }
-        } catch (SQLException e) {
-            new ArrayList<Forme>();
-        }
-        return find;
-    }
-    /**
-     * recherche toutes les associations d'un groupe qui contient des Carrés.
-     * @param id identifiant du groupe
-     * @return listes des composants de type Carre du groupe
-     */
-    public ArrayList<Forme> findCompositionCarre(final String id) {
-        final int un = 1;
-        ArrayList<Forme> find = new ArrayList<Forme>();
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT idComposant "
-                    + "FROM CompositionCarre WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            ResultSet result = prepare.executeQuery();
-            DaoFactoryJDBC factory = new DaoFactoryJDBC();
-            AbstractDao<Carre> dao = factory.getDaoCarre();
-            while (result.next()) {
-                find.add(dao.find(result.getString("idComposant")));
-            }
-        } catch (SQLException e) {
-            new ArrayList<Forme>();
-        }
-        return find;
-    }
-    /**
-     * recherche toutes les associations d'un
-     * groupe qui contient des Rectangles.
-     * @param id identifiant du groupe
-     * @return listes des composants de type Rectangle du groupe
-     */
-    public ArrayList<Forme> findCompositionRectangle(final String id) {
-        final int un = 1;
-        ArrayList<Forme> find = new ArrayList<Forme>();
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT idComposant "
-                    + "FROM CompositionRectangle WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            ResultSet result = prepare.executeQuery();
-            DaoFactoryJDBC factory = new DaoFactoryJDBC();
-            AbstractDao<Rectangle> dao = factory.getDaoRectangle();
-            while (result.next()) {
-                find.add(dao.find(result.getString("idComposant")));
-            }
-        } catch (SQLException e) {
-            new ArrayList<Forme>();
-        }
-        return find;
-    }
-    /**
-     * recherche toutes les associations d'un groupe qui contient des triangles.
-     * @param id identifiant du groupe
-     * @return listes des composants de type Triangle du groupe
-     */
-    public ArrayList<Forme> findCompositionTriangle(final String id) {
-        final int un = 1;
-        ArrayList<Forme> find = new ArrayList<Forme>();
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT idComposant "
-                    + "FROM CompositionTriangle WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            ResultSet result = prepare.executeQuery();
-            DaoFactoryJDBC factory = new DaoFactoryJDBC();
-            AbstractDao<Triangle> dao = factory.getDaoTriangle();
-            while (result.next()) {
-                find.add(dao.find(result.getString("idComposant")));
-            }
-        } catch (SQLException e) {
-            new ArrayList<Forme>();
-        }
-        return find;
-    }
-    /**
-     * recherche toutes les associations d'un groupe qui contient des groupes.
-     * @param id identifiant du groupe
-     * @return listes des composants de type groupe du groupe
-     */
-    public ArrayList<Forme> findCompositionGroupe(final String id) {
-        final int un = 1;
-        ArrayList<Forme> find = new ArrayList<Forme>();
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT idComposant "
-                    + "FROM CompositionGroupe WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            ResultSet result = prepare.executeQuery();
-            DaoFactoryJDBC factory = new DaoFactoryJDBC();
-            AbstractDao<GroupeForme> dao = factory.getDaoGroupeForme();
-            while (result.next()) {
-                find.add(dao.find(result.getString("idComposant")));
-            }
-        } catch (SQLException e) {
-            new ArrayList<Forme>();
-        }
-        return find;
     }
     /**
      * recherche toutes les associations d'un groupe qui contient des formes.
@@ -250,105 +53,64 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
      * @return listes des composants du groupe
      */
     public ArrayList<Forme> findComposition(final String id) {
-        ArrayList<Forme> all = new ArrayList<Forme>();
-        all.addAll(this.findCompositionCercle(id));
-        all.addAll(this.findCompositionCarre(id));
-        all.addAll(this.findCompositionRectangle(id));
-        all.addAll(this.findCompositionTriangle(id));
-        all.addAll(this.findCompositionGroupe(id));
-        return all;
-    }
-    /**
-     * retire toutes les associations d'un groupe qui contient des Cercles.
-     * @param id identifiant du groupe
-     */
-    public void deleteCompositionCercle(final String id) {
         final int un = 1;
+        ArrayList<Forme> find = new ArrayList<Forme>();
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionCercle WHERE idGroupe = ?");
+                    "SELECT idComposant "
+                    + "FROM Composition WHERE idGroupe = ?");
             prepare.setString(un, id);
-            prepare.executeUpdate();
+            ResultSet result = prepare.executeQuery();
+            DaoFactoryJDBC factory = new DaoFactoryJDBC();
+            AbstractDao<Cercle> daoCe = factory.getDaoCercle();
+            AbstractDao<Carre> daoCa = factory.getDaoCarre();
+            AbstractDao<Rectangle> daoR = factory.getDaoRectangle();
+            AbstractDao<Triangle> daoT = factory.getDaoTriangle();
+            while (result.next()) {
+                Forme f = daoCe.find(result.getString("idComposant"));
+                if(f == null) {
+                    f = daoCa.find(result.getString("idComposant"));
+                }
+                if(f == null) {
+                    f = daoR.find(result.getString("idComposant"));
+                }
+                if(f == null) {
+                    f = daoT.find(result.getString("idComposant"));
+                }
+                if(f == null) {
+                    f = this.find(result.getString("idComposant"));
+                }
+                find.add(f);
+            }
         } catch (SQLException e) {
+            new ArrayList<Forme>();
         }
-    }
-    /**
-     * retire toutes les associations d'un groupe qui contient des Carrés.
-     * @param id identifiant du groupe
-     */
-    public void deleteCompositionCarre(final String id) {
-        final int un = 1;
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionCarre WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            prepare.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-    /**
-     * retire toutes les associations d'un groupe qui contient des Rectangles.
-     * @param id identifiant du groupe
-     */
-    public void deleteCompositionRectangle(final String id) {
-        final int un = 1;
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionRectangle WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            prepare.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-    /**
-     * retire toutes les associations d'un groupe qui contient des Triangles.
-     * @param id identifiant du groupe
-     */
-    public void deleteCompositionTriangle(final String id) {
-        final int un = 1;
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionTriangle WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            prepare.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-    /**
-     * retire toutes les associations d'un groupe qui contient des groupes.
-     * @param id identifiant du groupe
-     */
-    public void deleteCompositionGroupe(final String id) {
-        final int un = 1;
-        try {
-            PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionGroupe WHERE idGroupe = ?");
-            prepare.setString(un, id);
-            prepare.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
+        return find;
+    }    
     /**
      * retire toutes les associations d'un groupe qui contient des formes.
      * @param id identifiant du groupe
      */
     public void deleteComposition(final String id) {
-        this.deleteCompositionCercle(id);
-        this.deleteCompositionCarre(id);
-        this.deleteCompositionRectangle(id);
-        this.deleteCompositionTriangle(id);
-        this.deleteCompositionGroupe(id);
-    }
-    /**
-     * supprime toutes les associations
-     * du groupe contenu dans les groupes.
-     * @param id identifiant de la forme
-     */
-    private void deleteGroupeComposition(final String id) {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "DELETE FROM CompositionGroupe WHERE idComposant = ?");
+                    "DELETE FROM Composition WHERE idGroupe = ?");
+            prepare.setString(un, id);
+            prepare.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+    /**
+     * supprime toutes les associations
+     * de la forme contenu dans les groupes.
+     * @param id identifiant de la forme
+     */
+    private void deleteComposant(final String id) {
+        final int un = 1;
+        try {
+            PreparedStatement prepare = connect.prepareStatement(
+                    "DELETE FROM Composition WHERE idComposant = ?");
             prepare.setString(un, id);
             prepare.executeUpdate();
         } catch (SQLException e) {
@@ -364,9 +126,15 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
         final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO GroupeForme"
-            + " (variableName)"
-            + " VALUES(?)");
+                    "INSERT INTO Forme"
+                    + " (variableName)"
+                    + " VALUES(?)");
+            prepare.setString(un, object.getVariableName());
+            prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "INSERT INTO GroupeForme"
+                    + " (variableName)"
+                    + " VALUES(?)");
             prepare.setString(un, object.getVariableName());
             prepare.executeUpdate();
             DaoFactoryJDBC factory = new DaoFactoryJDBC();
@@ -374,28 +142,20 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
                 if (f.getClass() == Cercle.class) {
                     AbstractDao<Cercle> dao = factory.getDaoCercle();
                     dao.create((Cercle) f);
-                    this.createCompositionCercle(
-                            object.getVariableName(), f.getVariableName());
                 } else if (f.getClass() == Carre.class) {
                     AbstractDao<Carre> dao = factory.getDaoCarre();
                     dao.create((Carre) f);
-                    this.createCompositionCarre(
-                            object.getVariableName(), f.getVariableName());
                 } else if (f.getClass() == Rectangle.class) {
                     AbstractDao<Rectangle> dao = factory.getDaoRectangle();
                     dao.create((Rectangle) f);
-                    this.createCompositionRectangle(
-                            object.getVariableName(), f.getVariableName());
                 } else if (f.getClass() == Triangle.class) {
                     AbstractDao<Triangle> dao = factory.getDaoTriangle();
                     dao.create((Triangle) f);
-                    this.createCompositionTriangle(
-                            object.getVariableName(), f.getVariableName());
                 } else {
                     this.create((GroupeForme) f);
-                    this.createCompositionGroupe(
-                            object.getVariableName(), f.getVariableName());
                 }
+                this.createComposition(
+                        object.getVariableName(), f.getVariableName());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -462,28 +222,20 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
                 if (f.getClass() == Cercle.class) {
                     AbstractDao<Cercle> dao = factory.getDaoCercle();
                     dao.create((Cercle) f);
-                    this.createCompositionCercle(
-                            object.getVariableName(), f.getVariableName());
                 } else if (f.getClass() == Carre.class) {
                     AbstractDao<Carre> dao = factory.getDaoCarre();
                     dao.create((Carre) f);
-                    this.createCompositionCarre(
-                            object.getVariableName(), f.getVariableName());
                 } else if (f.getClass() == Rectangle.class) {
                     AbstractDao<Rectangle> dao = factory.getDaoRectangle();
                     dao.create((Rectangle) f);
-                    this.createCompositionRectangle(
-                            object.getVariableName(), f.getVariableName());
                 } else if (f.getClass() == Triangle.class) {
                     AbstractDao<Triangle> dao = factory.getDaoTriangle();
                     dao.create((Triangle) f);
-                    this.createCompositionTriangle(
-                            object.getVariableName(), f.getVariableName());
                 } else {
                     this.create((GroupeForme) f);
-                    this.createCompositionGroupe(
-                            object.getVariableName(), f.getVariableName());
                 }
+                this.createComposition(
+                        object.getVariableName(), f.getVariableName());
             }
         } else {
             return null;
@@ -499,9 +251,13 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
         final int un = 1;
         try {
             this.deleteComposition(object.getVariableName());
-            this.deleteGroupeComposition(object.getVariableName());
+            this.deleteComposant(object.getVariableName());
             PreparedStatement prepare = connect.prepareStatement(
                     "DELETE FROM GroupeForme WHERE variableName = ?");
+            prepare.setString(un, object.getVariableName());
+            prepare.executeUpdate();
+            prepare = connect.prepareStatement(
+                    "DELETE FROM Forme WHERE variableName = ?");
             prepare.setString(un, object.getVariableName());
             prepare.executeUpdate();
         } catch (SQLException e) {
