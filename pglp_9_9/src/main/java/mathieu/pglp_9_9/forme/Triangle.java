@@ -18,7 +18,8 @@ public class Triangle extends Forme  {
     public Triangle(final String nomVariable, final Position point1,
             final Position point2, final Position point3) {
         super(nomVariable);
-        points = new Position[3];
+        final int trois = 3;
+        points = new Position[trois];
         points[0] = point1.clone();
         points[1] = point2.clone();
         points[2] = point3.clone();

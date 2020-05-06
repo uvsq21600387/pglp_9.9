@@ -66,7 +66,6 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
             prepare.setInt(cinq, object.getLargeur());
             prepare.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
         return object;

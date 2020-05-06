@@ -161,7 +161,6 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
             }
             factory.close();
         } catch (SQLException e) {
-            e.printStackTrace();
             factory.close();
             return null;
         }

@@ -49,8 +49,6 @@ public class RemoveCommand implements Command {
                 AbstractDao<GroupeForme> dao = factory.getDaoGroupeForme();
                 dao.delete((GroupeForme) forme);
             }
-            System.out.println("Suppression de la forme "
-            + forme.getVariableName() + " réussi.");
         }
         factory.close();
     }

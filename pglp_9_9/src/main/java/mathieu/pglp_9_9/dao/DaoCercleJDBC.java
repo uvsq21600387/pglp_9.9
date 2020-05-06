@@ -64,7 +64,6 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
             prepare.setInt(quatre, object.getRayon());
             prepare.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
         return object;

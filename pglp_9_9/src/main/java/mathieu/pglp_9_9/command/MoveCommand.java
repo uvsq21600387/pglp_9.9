@@ -54,7 +54,5 @@ public class MoveCommand implements Command {
             dao.update((GroupeForme) forme);
         }
         factory.close();
-        System.out.println("Déplacement de la forme "
-        + forme.getVariableName() + " réussi.");
     }
 }

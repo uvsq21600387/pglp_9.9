@@ -50,7 +50,6 @@ public abstract class Bdd {
         } catch (SQLException e) {
            System.out.println("la base de donnée existe déjà");
         }
-        
     }
     /**
      * supprime les tables.

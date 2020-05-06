@@ -71,7 +71,6 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
             prepare.setInt(sept, object.getPosition(2).getY());
             prepare.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
         return object;
@@ -105,7 +104,6 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
                 find = new Triangle(id, p[0], p[1], p[2]);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
         return find;

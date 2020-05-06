@@ -64,7 +64,6 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
             prepare.setInt(quatre, object.getLongueur());
             prepare.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
         return object;

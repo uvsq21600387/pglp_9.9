@@ -34,7 +34,7 @@ public class DrawingTUI {
             split = split[1].split(",");
             if (split.length != trois) {
                 System.err.println("Commande invalide, "
-                        + split.length + "/" + trois +" arguments");
+                        + split.length + "/" + trois + " arguments");
             } else {
                 Position centre;
                 int rayon;
@@ -68,7 +68,7 @@ public class DrawingTUI {
             split = split[1].split(",");
             if (split.length != trois) {
                 System.err.println("Commande invalide, "
-                        + split.length + "/" + trois +" arguments");
+                        + split.length + "/" + trois + " arguments");
             } else {
                 Position topLeft;
                 int longueur;
@@ -102,7 +102,7 @@ public class DrawingTUI {
             split = split[1].split(",");
             if (split.length != quatre) {
                 System.err.println("Commande invalide, "
-                        + split.length + "/" + quatre +" arguments");
+                        + split.length + "/" + quatre + " arguments");
             } else {
                 Position topLeft;
                 int longueur;
@@ -140,7 +140,7 @@ public class DrawingTUI {
             split = split[1].split(",");
             if (split.length != six) {
                 System.err.println("Commande invalide, "
-            + split.length +"/" + six +" arguments");
+            + split.length + "/" + six + " arguments");
             }
             Position[] point = {null, null, null};
             try {
@@ -172,12 +172,7 @@ public class DrawingTUI {
         } else {
             split[1] = split[1].substring(1, split[1].length() - 1);
             split = split[1].split(",");
-            Forme f = createGroupeComposants(variableName, split);
-            if(f == null) {
-                System.err.println("Commande invalide, "
-                        + "impossible de créer la forme");
-            }
-            return f;
+            return createGroupeComposants(variableName, split);
         }
         return null;
     }
@@ -224,6 +219,10 @@ public class DrawingTUI {
         }
         if (f == null) {
             f = daoG.find(variableName);
+        }
+        if (f == null) {
+            System.err.println("Aucune forme n'existe à ce nom : "
+                    + variableName);
         }
         factory.close();
         return f;
@@ -275,7 +274,7 @@ public class DrawingTUI {
             split = split[1].split(",");
             if (split.length != trois) {
                 System.err.println("Commande invalide, "
-                        + split.length + "/" + trois +" arguments");
+                        + split.length + "/" + trois + " arguments");
             } else {
                 String variableName;
                 Position deplacement;
@@ -332,7 +331,7 @@ public class DrawingTUI {
         String[] split = cmd.split("delete");
         if (!split[0].equals("")
                 || !(split[1].startsWith("(") && split[1].endsWith(")"))) {
-            System.err.println("Commande invalide, parenthèses manquantes." + split[1]);
+            System.err.println("Commande invalide, parenthèses manquantes");
         } else {
             split[1] = split[1].substring(1, split[1].length() - 1);
             split = split[1].split(",");
@@ -371,18 +370,35 @@ public class DrawingTUI {
             return this.remove(cmd);
         } else if (cmd.equals("help")) {
             System.out.println("Commandes disponibles : \n"
-                    + "Créer un cercle :                                    variableName = Cercle((x,y), rayon)\n"
-                    + "Créer un carré :                                     variableName = Carre((x,y), longueur)\n"
-                    + "Créer un rectangle :                                 variableName = Rectangle((x,y), longueur, largeur)\n"
-                    + "Créer un triangle :                                  variableName = Triangle((x,y), (x,y), (x,y))\n"
-                    + "Créer un groupe de forme(s) :                        variableName = Groupe(variableName, ...)\n"
+                    + "Créer un cercle :                  "
+                    + "                  variableName = Ce"
+                    + "rcle((x,y), rayon)\n"
+                    + "Créer un carré :                   "
+                    + "                  variableName = Ca"
+                    + "rre((x,y), longueur)\n"
+                    + "Créer un rectangle :               "
+                    + "                  variableName = Re"
+                    + "ctangle((x,y), longueur, largeur)\n"
+                    + "Créer un triangle :                "
+                    + "                  variableName = Tr"
+                    + "iangle((x,y), (x,y), (x,y))\n"
+                    + "Créer un groupe de forme(s) :      "
+                    + "                  variableName = Gr"
+                    + "oupe(variableName, ...)\n"
                     + "\n"
-                    + "déplacer une forme ou un groupe :                    move(variableName, (x,y))\n"
+                    + "déplacer une forme ou un groupe :  "
+                    + "                  move(variableName"
+                    + ", (x,y))\n"
                     + "\n"
-                    + "afficher une/des forme(s) ou un/des groupe(s) :      show(variableName, ...)\n"
-                    + "afficher toutes les formes et groupes :              showAll"
+                    + "afficher une/des forme(s) ou un/des"
+                    + " groupe(s) :      show(variableName"
+                    + ", ...)\n"
+                    + "afficher toutes les formes et group"
+                    + "es :              showAll"
                     + "\n"
-                    + "supprimer une forme ou un groupe :                   delete(variableName, ...)");
+                    + "supprimer une forme ou un groupe : "
+                    + "                  delete(variableNa"
+                    + "me, ...)");
         } else if (!cmd.equals("exit")) {
             System.err.println("Commande non reconnu");
         }

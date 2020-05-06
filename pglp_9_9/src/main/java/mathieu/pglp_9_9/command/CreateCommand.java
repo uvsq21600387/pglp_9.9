@@ -28,25 +28,31 @@ public class CreateCommand implements Command {
      * execution de la commande.
      */
     public void execute() {
+        Forme f;
         DaoFactoryJDBC factory = new DaoFactoryJDBC();
         if (forme.getClass() == Cercle.class) {
             AbstractDao<Cercle> dao = factory.getDaoCercle();
-            dao.create((Cercle) forme);
+            f = dao.create((Cercle) forme);
         } else if (forme.getClass() == Carre.class) {
             AbstractDao<Carre> dao = factory.getDaoCarre();
-            dao.create((Carre) forme);
+            f = dao.create((Carre) forme);
         } else if (forme.getClass() == Rectangle.class) {
             AbstractDao<Rectangle> dao = factory.getDaoRectangle();
-            dao.create((Rectangle) forme);
+            f = dao.create((Rectangle) forme);
         } else if (forme.getClass() == Triangle.class) {
             AbstractDao<Triangle> dao = factory.getDaoTriangle();
-            dao.create((Triangle) forme);
+            f = dao.create((Triangle) forme);
         } else {
             AbstractDao<GroupeForme> dao = factory.getDaoGroupeForme();
-            dao.create((GroupeForme) forme);
+            f = dao.create((GroupeForme) forme);
         }
         factory.close();
-        System.out.println("Ajout de la forme "
-        + forme.getVariableName() + " réussi.");
+        if (f != null) {
+            System.out.println("Ajout de la forme "
+                    + forme.getVariableName() + " réussi.");
+        } else {
+            System.out.println("Une forme existe déjà à ce nom : "
+                    + forme.getVariableName());
+        }
     }
 }
