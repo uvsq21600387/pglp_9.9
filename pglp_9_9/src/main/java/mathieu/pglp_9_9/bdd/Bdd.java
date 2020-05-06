@@ -35,17 +35,22 @@ public abstract class Bdd {
         Bdd.initTableCarre(connect);
         initTableRectangle(connect);
         initTableCercle(connect);
-        initTableRectangle(connect);
         initTableGroupeForme(connect);
         initTableRelation(connect);
+        connect.close();
     }
     /**
      * créer la bdd.
      * @throws SQLException erreur de création
      */
-    public static void createDataBase() throws SQLException {
-        DriverManager.getConnection(
+    public static void createDataBase()  {
+        try {
+            DriverManager.getConnection(
                 "jdbc:derby:bdd9;create=true");
+        } catch (SQLException e) {
+           System.out.println("la base de donnée existe déjà");
+        }
+        
     }
     /**
      * supprime les tables.
@@ -195,11 +200,11 @@ public abstract class Bdd {
             throws SQLException {
         String table = "create table Composition ("
                 + "idGroupe varchar(30),"
-                + "idGroupeComposant varchar(30),"
-                + "primary key (idGroupe, idGroupeComposant),"
+                + "idComposant varchar(30),"
+                + "primary key (idGroupe, idComposant),"
                 + "foreign key (idGroupe) references "
                 + "GroupeForme (variableName),"
-                + "foreign key (idGroupeComposant) "
+                + "foreign key (idComposant) "
                 + "references Forme (variableName)"
                 + ")";
         Statement stat = connect.createStatement();

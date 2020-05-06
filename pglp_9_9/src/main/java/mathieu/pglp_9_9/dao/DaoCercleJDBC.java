@@ -104,7 +104,7 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
         ArrayList<Cercle> find = new ArrayList<Cercle>();
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT variableName FROM Triangle");
+                    "SELECT variableName FROM Cercle");
             ResultSet result = prepare.executeQuery();
             while (result.next()) {
                 find.add(this.find(result.getString("variableName")));

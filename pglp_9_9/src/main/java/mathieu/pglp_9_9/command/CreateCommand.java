@@ -9,14 +9,24 @@ import mathieu.pglp_9_9.forme.GroupeForme;
 import mathieu.pglp_9_9.forme.Rectangle;
 import mathieu.pglp_9_9.forme.Triangle;
 
+/**
+ * commande pour créer une forme.
+ */
 public class CreateCommand implements Command {
-    
-    Forme forme;
-    
-    public CreateCommand(Forme f) {
+    /**
+     * forme à créer.
+     */
+    private Forme forme;
+    /**
+     * constructeur de la classe.
+     * @param f forme à créer
+     */
+    public CreateCommand(final Forme f) {
         forme = f;
     }
-    
+    /**
+     * execution de la commande.
+     */
     public void execute() {
         DaoFactoryJDBC factory = new DaoFactoryJDBC();
         if (forme.getClass() == Cercle.class) {
@@ -35,6 +45,8 @@ public class CreateCommand implements Command {
             AbstractDao<GroupeForme> dao = factory.getDaoGroupeForme();
             dao.create((GroupeForme) forme);
         }
+        factory.close();
+        System.out.println("Ajout de la forme "
+        + forme.getVariableName() + " réussi.");
     }
-
 }

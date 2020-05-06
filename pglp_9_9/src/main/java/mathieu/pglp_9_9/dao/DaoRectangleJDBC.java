@@ -110,7 +110,7 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
         ArrayList<Rectangle> find = new ArrayList<Rectangle>();
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT variableName FROM Triangle");
+                    "SELECT variableName FROM Rectangle");
             ResultSet result = prepare.executeQuery();
             while (result.next()) {
                 find.add(this.find(result.getString("variableName")));

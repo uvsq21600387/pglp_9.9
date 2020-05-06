@@ -60,7 +60,7 @@ public class DaoTriangleJDBC extends AbstractDao<Triangle> {
                     + " (variableName,"
                     + "point1_x,point1_y,"
                     + "point2_x,point2_y,"
-                    + "point3_x,point3_y,)"
+                    + "point3_x,point3_y)"
                     + " VALUES(?, ?, ?, ?, ?, ?, ?)");
             prepare.setString(un, object.getVariableName());
             prepare.setInt(deux, object.getPosition(0).getX());

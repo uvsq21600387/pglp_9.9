@@ -7,5 +7,5 @@ public interface Command {
     /**
      * executer une commande.
      */
-    public void execute();
+    void execute();
 }

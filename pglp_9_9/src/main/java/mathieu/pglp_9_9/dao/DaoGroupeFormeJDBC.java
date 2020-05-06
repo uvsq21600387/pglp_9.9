@@ -55,38 +55,40 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
     public ArrayList<Forme> findComposition(final String id) {
         final int un = 1;
         ArrayList<Forme> find = new ArrayList<Forme>();
+        DaoFactoryJDBC factory = new DaoFactoryJDBC();
         try {
             PreparedStatement prepare = connect.prepareStatement(
                     "SELECT idComposant "
                     + "FROM Composition WHERE idGroupe = ?");
             prepare.setString(un, id);
             ResultSet result = prepare.executeQuery();
-            DaoFactoryJDBC factory = new DaoFactoryJDBC();
             AbstractDao<Cercle> daoCe = factory.getDaoCercle();
             AbstractDao<Carre> daoCa = factory.getDaoCarre();
             AbstractDao<Rectangle> daoR = factory.getDaoRectangle();
             AbstractDao<Triangle> daoT = factory.getDaoTriangle();
             while (result.next()) {
                 Forme f = daoCe.find(result.getString("idComposant"));
-                if(f == null) {
+                if (f == null) {
                     f = daoCa.find(result.getString("idComposant"));
                 }
-                if(f == null) {
+                if (f == null) {
                     f = daoR.find(result.getString("idComposant"));
                 }
-                if(f == null) {
+                if (f == null) {
                     f = daoT.find(result.getString("idComposant"));
                 }
-                if(f == null) {
+                if (f == null) {
                     f = this.find(result.getString("idComposant"));
                 }
                 find.add(f);
             }
+            factory.close();
         } catch (SQLException e) {
-            new ArrayList<Forme>();
+            factory.close();
+            return new ArrayList<Forme>();
         }
         return find;
-    }    
+    }
     /**
      * retire toutes les associations d'un groupe qui contient des formes.
      * @param id identifiant du groupe
@@ -124,6 +126,7 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
     @Override
     public GroupeForme create(final GroupeForme object) {
         final int un = 1;
+        DaoFactoryJDBC factory = new DaoFactoryJDBC();
         try {
             PreparedStatement prepare = connect.prepareStatement(
                     "INSERT INTO Forme"
@@ -137,7 +140,6 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
                     + " VALUES(?)");
             prepare.setString(un, object.getVariableName());
             prepare.executeUpdate();
-            DaoFactoryJDBC factory = new DaoFactoryJDBC();
             for (Forme f : object.getList()) {
                 if (f.getClass() == Cercle.class) {
                     AbstractDao<Cercle> dao = factory.getDaoCercle();
@@ -157,8 +159,10 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
                 this.createComposition(
                         object.getVariableName(), f.getVariableName());
             }
+            factory.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            factory.close();
             return null;
         }
         return object;
@@ -179,6 +183,10 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
             ResultSet result = prepare.executeQuery();
             if (result.next()) {
                 find = new GroupeForme(id);
+                ArrayList<Forme> list = findComposition(id);
+                for (Forme f : list) {
+                    find.add(f);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -195,7 +203,7 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
         ArrayList<GroupeForme> find = new ArrayList<GroupeForme>();
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT variableName FROM Triangle");
+                    "SELECT variableName FROM GroupeForme");
             ResultSet result = prepare.executeQuery();
             while (result.next()) {
                 find.add(this.find(result.getString("variableName")));
@@ -237,6 +245,7 @@ public class DaoGroupeFormeJDBC extends AbstractDao<GroupeForme> {
                 this.createComposition(
                         object.getVariableName(), f.getVariableName());
             }
+            factory.close();
         } else {
             return null;
         }

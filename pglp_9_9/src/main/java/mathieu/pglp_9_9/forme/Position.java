@@ -43,20 +43,17 @@ public class Position {
             System.err.println(position);
             throw new CharConversionException();
         }
-        position.substring(1, position.length() - 1);
-        String[] positionSplit = position.split(",");
+        String position2 = position.substring(1, position.length() - 1);
+        String[] positionSplit = position2.split(",");
         if (positionSplit.length != 2) {
             System.err.println(position);
             throw new CharConversionException();
         }
-        final int xP = x;
-        final int yP = y;
         try {
             x = Integer.parseInt(positionSplit[0]);
             y = Integer.parseInt(positionSplit[1]);
         } catch (NumberFormatException e) {
-            x = xP;
-            y = yP;
+            e.printStackTrace();
             throw e;
         }
     }

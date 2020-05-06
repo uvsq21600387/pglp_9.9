@@ -1,6 +1,7 @@
 package mathieu.pglp_9_9.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import mathieu.pglp_9_9.bdd.Bdd;
 import mathieu.pglp_9_9.forme.Carre;
@@ -22,6 +23,16 @@ public class DaoFactoryJDBC {
      */
     public DaoFactoryJDBC() {
         connect = Bdd.getConnection();
+    }
+    /**
+     * ferme la connection.
+     */
+    public void close() {
+        try {
+            connect.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * retourne le dao.

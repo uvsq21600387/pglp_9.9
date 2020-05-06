@@ -103,7 +103,7 @@ public class DaoCarreJDBC extends AbstractDao<Carre> {
         ArrayList<Carre> find = new ArrayList<Carre>();
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "SELECT variableName FROM Triangle");
+                    "SELECT variableName FROM Carre");
             ResultSet result = prepare.executeQuery();
             while (result.next()) {
                 find.add(this.find(result.getString("variableName")));
