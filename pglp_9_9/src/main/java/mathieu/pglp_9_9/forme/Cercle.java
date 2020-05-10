@@ -17,12 +17,13 @@ public class Cercle extends Forme {
      * @param nomVariable nom de variable pour créer le cercle
      * @param p position du cercle
      * @param rayonCercle rayon du cercle
+     * @throws Exception rayon invalide
      */
     public Cercle(final String nomVariable, final Position p,
-            final int rayonCercle) {
+            final int rayonCercle) throws Exception {
         super(nomVariable);
         centre = p.clone();
-        rayon = rayonCercle;
+        this.setRayon(rayonCercle);
     }
     /**
      * déplacer un cercle depuis sa position d'origine.
@@ -36,8 +37,8 @@ public class Cercle extends Forme {
     /**
      * affiche le cercle.
      */
-    @Override
     public void affiche() {
+        super.affiche();
         System.out.println("Cercle ("
                 + "centre = " + centre + ", rayon = " + rayon + ")");
     }
@@ -50,10 +51,15 @@ public class Cercle extends Forme {
     }
     /**
      * définir une nouvelle valeur pour le rayon.
-     * @param newRayon nouvelle valeur pour le rayon
+     * @param newRayon nouvelle valeur pour le rayon > 0
+     * @throws Exception rayon invalide
      */
-    public void setRayon(final int newRayon) {
-        this.rayon = newRayon;
+    public void setRayon(final int newRayon) throws Exception {
+        if (newRayon > 0) {
+            this.rayon = newRayon;
+        } else {
+            throw new Exception();
+        }
     }
     /**
      * obtenir la position du centre du cercle.

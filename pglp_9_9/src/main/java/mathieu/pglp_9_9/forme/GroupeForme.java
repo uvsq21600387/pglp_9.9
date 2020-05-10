@@ -32,8 +32,8 @@ public class GroupeForme extends Forme {
     /**
      * affiche les formes et groupes de formes dans ce groupe.
      */
-    @Override
     public void affiche() {
+        super.affiche();
         System.out.println("Groupe (");
         for (Forme f : formes) {
             f.affiche();

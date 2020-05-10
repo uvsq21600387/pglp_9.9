@@ -10,13 +10,24 @@ import java.sql.Statement;
  */
 public abstract class Bdd {
     /**
+     * nom du dessin.
+     */
+    private static String nameBdd = "tmp";
+    /**
+     * modifier le nom de la base de donnée.
+     * @param name nouveau nom
+     */
+    public static void setNomDessin(final String name) {
+        nameBdd = name + "";
+    }
+    /**
      * obtenir la connection à la bdd.
      * @return connection à la bdd
      */
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(
-                    "jdbc:derby:bdd9;create=false");
+                    "jdbc:derby:" + nameBdd + ";create=false");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -27,8 +38,7 @@ public abstract class Bdd {
      * @throws Exception erreur de création
      */
     public static void resetDataBase() throws Exception {
-        Connection connect = DriverManager.getConnection(
-                "jdbc:derby:bdd9;create=false");
+        Connection connect = Bdd.getConnection();
         Bdd.delTables(connect);
         Bdd.initTableForme(connect);
         Bdd.initTableTriangle(connect);
@@ -44,11 +54,13 @@ public abstract class Bdd {
      * @throws SQLException erreur de création
      */
     public static void createDataBase()  {
+        Connection c;
         try {
-            DriverManager.getConnection(
-                "jdbc:derby:bdd9;create=true");
+            c = DriverManager.getConnection(
+                "jdbc:derby:" + nameBdd + ";create=true");
+            c.close();
         } catch (SQLException e) {
-           System.out.println("la base de donnée existe déjà");
+            e.printStackTrace();
         }
     }
     /**

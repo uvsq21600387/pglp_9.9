@@ -30,7 +30,6 @@ public class RemoveCommand implements Command {
      * execution de la commande.
      */
     public void execute() {
-        System.out.println(list.size());
         DaoFactoryJDBC factory = new DaoFactoryJDBC();
         for (Forme forme : list) {
             if (forme.getClass() == Cercle.class) {

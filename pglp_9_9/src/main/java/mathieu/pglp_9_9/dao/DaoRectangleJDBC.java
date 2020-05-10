@@ -89,10 +89,15 @@ public class DaoRectangleJDBC extends AbstractDao<Rectangle> {
                         result.getInt("topLeft_x"),
                         result.getInt("topLeft_y")
                 );
-                find = new Rectangle(id, p,
-                        result.getInt("longueur"),
-                        result.getInt("largeur")
-                );
+                try {
+                    find = new Rectangle(id, p,
+                            result.getInt("longueur"),
+                            result.getInt("largeur")
+                    );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

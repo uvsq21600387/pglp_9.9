@@ -39,8 +39,8 @@ public class Triangle extends Forme  {
     /**
      * affiche la forme.
      */
-    @Override
     public void affiche() {
+        super.affiche();
         System.out.println("Triangle ("
                 + "position des points = " + points[0] + ", "
                 + points[1] + ", " + points[2] + ")");

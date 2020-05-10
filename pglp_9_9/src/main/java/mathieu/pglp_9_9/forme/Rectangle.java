@@ -23,13 +23,15 @@ public class Rectangle extends Forme {
      * @param topLeftPosition position du coin en haut à gauche du rectangle
      * @param longueurRectangle longueur du rectangle
      * @param largeurRectangle largeur du rectangle
+     * @throws Exception si longueur ou largeur invalide
      */
     public Rectangle(final String nomVariable, final Position topLeftPosition,
-            final int longueurRectangle, final int largeurRectangle) {
+            final int longueurRectangle, final int largeurRectangle)
+            throws Exception {
         super(nomVariable);
         this.topLeft = topLeftPosition.clone();
-        this.longueur = longueurRectangle;
-        this.largeur = largeurRectangle;
+        this.setLargeur(largeurRectangle);
+        this.setLongueur(longueurRectangle);
     }
     /**
      * deplace un rectangle.
@@ -43,8 +45,8 @@ public class Rectangle extends Forme {
     /**
      * affiche un rectangle.
      */
-    @Override
     public void affiche() {
+        super.affiche();
         System.out.println("Rectangle (longueur = "
                 + longueur + ", largeur = " + largeur
                 + ", position du coin en haut à gauche = " + topLeft + ")");
@@ -72,10 +74,15 @@ public class Rectangle extends Forme {
     }
     /**
      * modifier la largeur du rectangle.
-     * @param largeurRectangle nouvelle valeur pour la largeur
+     * @param largeurRectangle nouvelle valeur pour la largeur > 0
+     * @throws Exception longueur invalide
      */
-    public void setLargeur(final int largeurRectangle) {
-        this.largeur = largeurRectangle;
+    public void setLargeur(final int largeurRectangle) throws Exception {
+        if (largeurRectangle > 0) {
+            this.largeur = largeurRectangle;
+        } else {
+            throw new Exception();
+        }
     }
     /**
      * obtenir la longueur du rectangle.
@@ -86,9 +93,14 @@ public class Rectangle extends Forme {
     }
     /**
      * modifier la longueur du rectangle.
-     * @param longueurRectangle nouvelle valeur pour la longueur
+     * @param longueurRectangle nouvelle valeur pour la longueur > 0
+     * @throws Exception longueur invalide
      */
-    public void setLongueur(final int longueurRectangle) {
-        this.longueur = longueurRectangle;
+    public void setLongueur(final int longueurRectangle) throws Exception {
+        if (longueurRectangle > 0) {
+            this.longueur = longueurRectangle;
+        } else {
+            throw new Exception();
+        }
     }
 }

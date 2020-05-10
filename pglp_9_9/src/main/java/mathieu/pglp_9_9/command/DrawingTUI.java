@@ -1,7 +1,12 @@
 package mathieu.pglp_9_9.command;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import mathieu.pglp_9_9.bdd.Bdd;
 import mathieu.pglp_9_9.dao.AbstractDao;
 import mathieu.pglp_9_9.dao.DaoFactoryJDBC;
 import mathieu.pglp_9_9.forme.Carre;
@@ -294,34 +299,6 @@ public class DrawingTUI {
         return null;
     }
     /**
-     * interprète la commande d'affichage de formes.
-     * @param cmd2 commande d'affichage
-     * @return la commande d'affichage
-     */
-    private Command affiche(final String cmd2) {
-        String cmd = cmd2.replace(" ", "");
-        String[] split = cmd.split("show");
-        if (!split[0].equals("")
-                || !(split[1].startsWith("(") && split[1].endsWith(")"))) {
-            System.err.println("Commande invalide, parenthèses manquantes");
-        } else {
-            split[1] = split[1].substring(1, split[1].length() - 1);
-            split = split[1].split(",");
-            ArrayList<Forme> list = new ArrayList<Forme>();
-            for (String var : split) {
-                Forme f = this.getForme(var);
-                if (f != null) {
-                    list.add(f);
-                } else {
-                    System.err.println("Commande invalide, forme inconnu");
-                    return null;
-                }
-            }
-            return new AfficheCommand(list);
-        }
-        return null;
-    }
-    /**
      * interprète la commande de suppression de formes.
      * @param cmd2 commande de suppression
      * @return la commande de suppression
@@ -362,10 +339,6 @@ public class DrawingTUI {
             }
         } else if (cmd.contains("move")) {
             return this.move(cmd);
-        } else if (cmd.contains("show(")) {
-            return this.affiche(cmd);
-        } else if (cmd.equals("showAll")) {
-            this.afficheDessin();
         } else if (cmd.contains("delete")) {
             return this.remove(cmd);
         } else if (cmd.equals("help")) {
@@ -390,19 +363,39 @@ public class DrawingTUI {
                     + "                  move(variableName"
                     + ", (x,y))\n"
                     + "\n"
-                    + "afficher une/des forme(s) ou un/des"
-                    + " groupe(s) :      show(variableName"
-                    + ", ...)\n"
-                    + "afficher toutes les formes et group"
-                    + "es :              showAll"
-                    + "\n"
                     + "supprimer une forme ou un groupe : "
                     + "                  delete(variableNa"
                     + "me, ...)");
-        } else if (!cmd.equals("exit")) {
+        } else if (!cmd.equalsIgnoreCase("exit")) {
             System.err.println("Commande non reconnu");
         }
         return null;
+    }
+    /**
+     * indique si une forme est contenu dans un groupe.
+     * @param f forme pour rechercher
+     * @return vrai si la forme est dans un groupe
+     */
+    private boolean estDansUnGroupe(final Forme f) {
+        Connection connect = Bdd.getConnection();
+        try {
+            PreparedStatement prepare = connect.prepareStatement(
+                    "SELECT * "
+                    + "FROM Composition WHERE idComposant = ?");
+            prepare.setString(1, f.getVariableName());
+            ResultSet result = prepare.executeQuery();
+            boolean b = result.next();
+            connect.close();
+            return b;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                connect.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return false;
+        }
     }
     /**
      * affiche toutes les formes du dessin (sauf les groupes).
@@ -413,13 +406,17 @@ public class DrawingTUI {
         AbstractDao<Carre> daoCa = factory.getDaoCarre();
         AbstractDao<Rectangle> daoR = factory.getDaoRectangle();
         AbstractDao<Triangle> daoT = factory.getDaoTriangle();
+        AbstractDao<GroupeForme> daoG = factory.getDaoGroupeForme();
         ArrayList<Forme> formes = new ArrayList<Forme>();
         formes.addAll(daoCe.findAll());
         formes.addAll(daoCa.findAll());
         formes.addAll(daoR.findAll());
         formes.addAll(daoT.findAll());
+        formes.addAll(daoG.findAll());
         for (Forme f : formes) {
-            f.affiche();
+            if (!this.estDansUnGroupe(f)) {
+                f.affiche();
+            }
         }
         factory.close();
     }

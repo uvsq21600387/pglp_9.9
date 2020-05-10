@@ -38,5 +38,7 @@ public abstract class Forme {
     /**
      * affiche la forme.
      */
-    public abstract void affiche();
+    public void affiche() {
+        System.out.print(variableName + " : ");
+    }
 }

@@ -17,13 +17,14 @@ public class Carre extends Forme {
      * constructeur d'un carré avec position du coin en haut à gauche.
      * @param nomVariable nom de variable pour créer le carré
      * @param topLeftPosition position du coin en haut à gauche du carré
-     * @param longueurCarre longueur du carré
+     * @param longueurCarre longueur du carré > 0
+     * @throws Exception longueur invalide
      */
     public Carre(final String nomVariable, final Position topLeftPosition,
-            final int longueurCarre) {
+            final int longueurCarre) throws Exception {
         super(nomVariable);
         this.topLeft = topLeftPosition.clone();
-        this.longueur = longueurCarre;
+        this.setLongueur(longueurCarre);
     }
     /**
      * deplace un carré.
@@ -37,8 +38,8 @@ public class Carre extends Forme {
     /**
      * affiche un carré.
      */
-    @Override
     public void affiche() {
+        super.affiche();
         System.out.println("Carre (longueur = "
                 + longueur
                 + ", position du coin en haut à gauche = " + topLeft + ")");
@@ -66,9 +67,14 @@ public class Carre extends Forme {
     }
     /**
      * modifier la longueur du carré.
-     * @param longueurCarre nouvelle valeur pour la longueur
+     * @param longueurCarre nouvelle valeur pour la longueur > 0
+     * @throws Exception longueur invalide
      */
-    public void setLongueur(final int longueurCarre) {
-        this.longueur = longueurCarre;
+    public void setLongueur(final int longueurCarre) throws Exception {
+        if (longueurCarre > 0) {
+            this.longueur = longueurCarre;
+        } else {
+            throw new Exception();
+        }
     }
 }

@@ -86,7 +86,12 @@ public class DaoCercleJDBC extends AbstractDao<Cercle> {
                 Position centre = new Position(
                         result.getInt("centre_x"),
                         result.getInt("centre_y"));
-                find = new Cercle(id, centre, result.getInt("rayon"));
+                try {
+                    find = new Cercle(id, centre, result.getInt("rayon"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
