@@ -68,11 +68,4 @@ public class Cercle extends Forme {
     public Position getCentre() {
         return centre.clone();
     }
-    /**
-     * définir une valeur pour le centre du cercle.
-     * @param newCentre nouvelle position pour le centre
-     */
-    public void setCentre(final Position newCentre) {
-        this.centre = newCentre.clone();
-    }
 }

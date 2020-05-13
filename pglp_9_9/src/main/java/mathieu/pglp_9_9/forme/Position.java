@@ -53,7 +53,8 @@ public class Position {
             x = Integer.parseInt(positionSplit[0]);
             y = Integer.parseInt(positionSplit[1]);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            System.err.println("Caractère inconnu "
+                    + "lors de la conversion des nombres.");
             throw e;
         }
     }

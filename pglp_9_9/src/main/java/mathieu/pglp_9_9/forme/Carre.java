@@ -52,13 +52,6 @@ public class Carre extends Forme {
         return topLeft.clone();
     }
     /**
-     * modifier la position du carré.
-     * @param topLeftPosition nouvelle position du coin en haut à gauche
-     */
-    public void setTopLeft(final Position topLeftPosition) {
-        this.topLeft = topLeft.clone();
-    }
-    /**
      * obtenir la longueur du carré.
      * @return la longueur du carré
      */

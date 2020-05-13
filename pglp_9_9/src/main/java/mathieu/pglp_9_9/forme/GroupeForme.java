@@ -1,11 +1,12 @@
 package mathieu.pglp_9_9.forme;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Pattern composite pour les formes.
  */
-public class GroupeForme extends Forme {
+public class GroupeForme extends Forme implements Iterable<Forme> {
     /**
      * liste des formes.
      */
@@ -57,19 +58,18 @@ public class GroupeForme extends Forme {
         formes.remove(f);
     }
     /**
-     * supprimer l'ensemble des formes et groupes du groupe.
-     */
-    public void reset() {
-        while (!formes.isEmpty()) {
-            formes.remove(0);
-        }
-    }
-    /**
      * obtenir la liste des formes et groupes du groupe.
      * @return la liste des formes et groupe du groupe
      */
     @SuppressWarnings("unchecked")
     public ArrayList<Forme> getList() {
         return (ArrayList<Forme>) formes.clone();
+    }
+    /**
+     * implementation de l'interface iterable.
+     * @return iterateur sur les élements du groupe
+     */
+    public Iterator<Forme> iterator() {
+        return formes.iterator();
     }
 }

@@ -59,13 +59,6 @@ public class Rectangle extends Forme {
         return topLeft.clone();
     }
     /**
-     * modifier la position du rectangle.
-     * @param topLeftPosition nouvelle position du coin en haut à gauche
-     */
-    public void setTopLeft(final Position topLeftPosition) {
-        this.topLeft = topLeft.clone();
-    }
-    /**
      * obtenir la largeur du rectangle.
      * @return la largeur du rectangle
      */
